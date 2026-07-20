@@ -1,35 +1,86 @@
-
-# define classes for trustCall memory management for storing
-
 from pydantic import BaseModel, Field
-from typing import Optional, Literal, List
+from typing import Optional, Literal
 from datetime import datetime
 
-# save user Profile in
+
+# -----------------------------
+# User Profile
+# -----------------------------
 class UserProfile(BaseModel):
-    user_name: Optional[str] = Field(description="preferred name of the user", default='User')
-    age: Optional[int] = Field(description="age of the user")
-    location: Optional[str] = Field(description="where the user lives")
-    job: Optional[str] = Field(description="The user's job", default=None)
-    connections: List[str] = Field(description="Personal connection of the user, such as family members, friends, or coworkers",default_factory=List)
-    interests:List[str] = Field(description= " List of user's preference, loves , likes, wants and interests that he mentions." , default_factory=List)
+
+    user_name: Optional[str] = Field(
+        default="User",
+        description="Preferred name of the user"
+    )
+
+    age: Optional[int] = Field(
+        default=None,
+        description="Age of the user"
+    )
+
+    location: Optional[str] = Field(
+        default=None,
+        description="Where the user lives"
+    )
+
+    job: Optional[str] = Field(
+        default=None,
+        description="The user's job"
+    )
+
+    connections: list[str] = Field(
+        default_factory=list,
+        description="Family, friends, coworkers, etc."
+    )
+
+    interests: list[str] = Field(
+        default_factory=list,
+        description="User interests, likes, loves, wants, hobbies"
+    )
 
 
-# save to_do list in
+# -----------------------------
+# Todo Memory
+# -----------------------------
 class ToDo(BaseModel):
-    task: str = Field(description="task to be completed")
-    time_taken: Optional[int] = Field(description="Estimated time to complete the task (Hours:Minutes)" , default = None )
-    deadline: Optional[datetime] = Field(description= "Estimated deadline to complete the task. May be as specified by the user", default= None)
-    instruction: Optional[str] =Field(description=""" ANy instruction provided by the user to complete the task.
-                                                    Example: rules, specific ideas, service providers, websites or any
-                                                    concrete options relevant to completing the task""", default = None)
-    desired_solution:Optional[str] = Field(description="Any Information about how the final solution or output should look like" , default = None)
-    status:Literal["not started", "in progress", "done", "archived"] = Field(description="Current status of the task", default="not started")
+
+    task: str = Field(
+        description="Task to complete"
+    )
+
+    time_taken: Optional[str] = Field(
+        default=None,
+        description="Estimated time such as '30 minutes' or '2 hours'"
+    )
+
+    deadline: Optional[str] = Field(
+        default=None,
+        description="Deadline in ISO format when possible (YYYY-MM-DD or ISO datetime)"
+    )
+
+    instruction: Optional[str] = Field(
+        default=None,
+        description="User instructions for completing the task"
+    )
+
+    desired_solution: Optional[str] = Field(
+        default=None,
+        description="Desired outcome"
+    )
+
+    status: Literal[
+        "not started",
+        "in progress",
+        "done",
+        "archived"
+    ] = Field(default="not started")
 
 
-
-# 3. define instruction class for LLM to generate/modify instructions
-# generate structred output
+# -----------------------------
+# Instruction Memory
+# -----------------------------
 class LLM_Instructions(BaseModel):
-    instructions: str = Field(description="Instructions generated, modified and/or updated by the LLM to update and manage the todo list", default=None)
 
+    instructions: str = Field(
+        description="Instructions for managing the todo list"
+    )

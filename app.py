@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_chat import message
+#from streamlit_chat import message
 from datetime import datetime
 
 from agent.graph import graph
@@ -30,10 +30,12 @@ if st.session_state.user_id == "":
         )
 
         name = st.text_input(
-            "",
+            "Your Name",
             key="login_name",
             placeholder="Type your name here...",
+            label_visibility="collapsed"
         )
+
 
         st.write("")
         st.write("")
@@ -55,215 +57,332 @@ with st.sidebar:
 user_id = str(st.session_state.user_id)
 config = {"configurable": {"thread_id": user_id, "user_id": user_id}}
 
-                # -------------------------------
-        # Initialize session state (once)
-        # -------------------------------
-if "chat_input_buffer" not in st.session_state:
-    st.session_state.chat_input_buffer = ""
 
-if "chat_input" not in st.session_state:
-    st.session_state.chat_input = ""
+# ✅ DEBUG (place here)
+#st.write("DEBUG: page loaded")
+#st.write("DEBUG history:", st.session_state.get("history", []))
 
-if "send" not in st.session_state:
-    st.session_state.send = False
+# -------------------------------
+# Global Session State Initialization
+# -------------------------------
+
+if "user_id" not in st.session_state:
+    st.session_state.user_id = ""
 
 if "history" not in st.session_state:
     st.session_state.history = []
 
+if "patches" not in st.session_state:
+    st.session_state.patches = None
+
+if "processing" not in st.session_state:
+    st.session_state.processing = False
+
 # Wrapper for Streamlit
 # -------------------------------
 def run_agent_streamlit(user_message):
-    result = graph.invoke({"messages": [HumanMessage(content=user_message)]}, config)
-    return result["messages"], result.get("patches", None)
 
+    result = graph.invoke(
+        {
+            "messages": [
+                HumanMessage(content=user_message)
+            ]
+        },
+        config=config
+    )
 
+    return (
+        result["messages"],
+        result.get("patches")
+    )
 
 # -------------------------------
 # Chat Page
 # -------------------------------
 if page == "Chat":
-    if page == "Chat": st.title(f"Hi {user_id}! 👋") 
+
+    # -------------------------
+    # Add Markdown for Instructions
+    # -------------------------
     st.markdown("""
-                    <style>
+                        <style>
+
                         .hero-title {
-                            font-size: 38px;
+                            font-size: 33px;
                             font-weight: 700;
                             color: #EAEAEA;
-                            margin-bottom: 10px;
+                            margin-bottom: 8px;
                         }
 
                         .hero-subtitle {
-                            font-size: 18px;
+                            font-size: 16px;
                             color: #C0C0C0;
-                            margin-bottom: 25px;
+                            margin-bottom: 21px;
+                            line-height: 1.6;
                         }
 
                         .section-header {
-                            font-size: 24px;
-                            font-weight: 600;
+                            font-size: 21px;
+                            font-weight: 800;
                             color: #D6D6D6;
-                            margin-top: 25px;
-                            margin-bottom: 15px;
+                            margin-top: 20px;
+                            margin-bottom: 12px;
                         }
+
 
                         .feature-card {
-                            background-color: #2B2B2B;
-                            padding: 15px 20px;
-                            border-radius: 12px;
-                            margin-bottom: 12px;
-                            border-left: 5px solid #7A7A7A;
+
+                            background-color:#2B2B2B;
+
+                            padding:15px 14px;
+
+                            border-radius:9px;
+
+                            margin-bottom:4px;
+
+                            border-left:5px solid #8A8A8A;
+
                         }
 
+
                         .feature-title {
-                            font-size: 18px;
-                            font-weight: 600;
-                            color: #F0F0F0;
+
+                            font-size:18px;
+                            font-weight:600;
+                            color:#F0F0F0;
+
                         }
 
                         .feature-text {
-                            font-size: 15px;
-                            color: #D0D0D0;
+
+                            font-size:15px;
+                            color:#D0D0D0;
+                            margin-top:6px;
+                            line-height:1.5;
+
                         }
+
 
                         .nav-box {
-                            background-color: #333333;
-                            padding: 15px;
-                            border-radius: 12px;
-                            margin-top: 20px;
-                            color: #E0E0E0;
+
+                            background-color:#333333;
+
+                            padding:10px;
+
+                            border-radius:10px;
+
+                            margin-top:7px;
+
+                            color:#E5E5E5;
+
                         }
+
 
                         .ready-box {
-                            background-color: #3A3A3A;
-                            padding: 18px;
-                            border-radius: 12px;
-                            margin-top: 25px;
-                            text-align: center;
-                            font-size: 18px;
-                            font-weight: 600;
-                            color: #F0F0F0;
+                            background-color:#3B3B3B;
+                            padding:8px 12px;
+                            border-radius:10px;
+                            margin-top:5px;
+                            margin-bottom:-25px;
+                            color:#E5E5E5;
+                            text-align:center;
+                            font-size:16px;
+                            font-weight:600;
+                            line-height:1.3;
                         }
+
+
+                        /* Pull chat input closer */
+                        div[data-testid="stChatInput"] {
+                            margin-top:-20px;
+                        }
+                
                         </style>
+                        <div class="hero-title">
 
-                    <div class="hero-title">
-                    🧠 Your Personal AI Task Manager Assistant
-                    </div>
+                        🧠 Your Personal AI Task Manager Agent
 
-                    <div class="hero-subtitle">
-                    More than a simple to-do list. Your AI-powered productivity partner that learns how you work, adapts to your preferences, and helps you stay organized and focused.
-                    </div>
+                        </div>
 
-                    <div class="section-header">
-                    🚀 What I Can Do
-                    </div>
+                        <div class="hero-subtitle">
 
-                    <div class="feature-card">
-                    <div class="feature-title">✅ Manage Your Tasks</div>
-                    <div class="feature-text">
-                    Create, update, organize, prioritize, and track tasks while maintaining a personalized to-do list.
-                    </div>
-                    </div>
+                        An intelligent productivity partner powered by Gemini + LangGraph.<br>
+                        More than a simple to-do list, I'm an AI-powered productivity partner that learns how you work, adapts to your preferences, and helps you stay organized and focused.
 
-                    <div class="feature-card">
-                    <div class="feature-title">✅ Provide Intelligent Guidance</div>
-                    <div class="feature-text">
-                    Analyze your tasks, suggest next actions, identify missing steps, and help you plan effectively.
-                    </div>
-                    </div>
+                        </div>
 
-                    <div class="feature-card">
-                    <div class="feature-title">✅ Learn Your Preferences</div>
-                    <div class="feature-text">
-                    Understand how you prefer to organize and manage work by learning recurring habits and planning styles.
-                    </div>
-                    </div>
+                        <div class="section-header">
+                        🚀 Agent Capabilities
+                        </div>
 
-                    <div class="feature-card">
-                    <div class="feature-title">✅ Build Your Personal Profile</div>
-                    <div class="feature-text">
-                    Learn about your interests, goals, and work patterns to provide increasingly personalized recommendations.
-                    </div>
-                    </div>
+                        <div class="feature-card">
+                        <div class="feature-title">
 
-                    <div class="feature-card">
-                    <div class="feature-title">✅ Reason & Plan Transparently</div>
-                    <div class="feature-text">
-                    Track how decisions are made, understand the reasoning behind recommendations, and see how your AI assistant works.
-                    </div>
-                    </div>
+                        ✅ Autonomous Task Management
 
-                    <div class="nav-box">
-                    <b>Explore the Navigation Panel</b><br><br>
+                        </div>
 
-                    📋 <b>Task Dashboard</b> — View and manage your tasks<br>
-                    🧠 <b>Memory Store</b> — Review learned preferences and profile information<br>
-                    🔍 <b>Patch Viewer</b> — See how the AI reasons and makes decisions
-                    </div>
+                        <div class="feature-text">
+                        Create, update, prioritize, organize, and track tasks through natural conversation.
+                        </div>
+                        </div>
 
-                    <div class="ready-box">
-                    💬 Ready to get started?<br><br>
-                    Ask me about your tasks, goals, projects, travel plans, learning objectives, or anything you'd like help organizing.
-                    </div>
-                    """, unsafe_allow_html=True)                                
+                        <div class="feature-card">
+                        <div class="feature-title">
 
+                        🧠 Long-Term Memory
 
-    for i, (role, msg) in enumerate(st.session_state.history):
-        message(msg, is_user=(role == "user"), key=f"msg_{i}")
+                        </div>
+                        <div class="feature-text">
+                        Learns your preferences, goals, interests, and working style to provide personalized assistance.
 
+                        </div>
+                        </div>
+
+                        <div class="feature-card">
+                        <div class="feature-title">
+
+                        📝 Intelligent Planning & Reasoning
+
+                        </div>
+                        <div class="feature-text">
+                        Breaks complex goals into actionable steps, identifies missing information,
+                        and recommends next actions.
+
+                        </div>
+                        </div>
+
+                        <div class="feature-card">
+                        <div class="feature-title">
+
+                        🤝 Human-in-the-Loop Control
+
+                        </div>
+
+                        <div class="feature-text">
+                        Keeps you in control by allowing review and approval before important decisions.
+
+                        </div>
+                        </div>
+
+                        <div class="feature-card">
+                        <div class="feature-title">
+                        🔍 Transparent AI Operations
+
+                        </div>
+
+                        <div class="feature-text">
+                        Understand how the agent works through memory visibility and tool execution tracking.
+
+                        </div>
+                        </div>
+                        <div class="nav-box">
+                        <b>Explore Your AI Workspace</b><br>
+                          📋 <b>Task Dashboard</b> — Manage your active goals and tasks<br>
+                          🧠 <b>Memory Store</b> — View what your AI assistant remembers<br>
+                          🔍 <b>Patch Viewer</b> — Inspect agent actions and decisions
+                        </div>
+
+                        <div class="ready-box">
+
+                        💬 Ready to collaborate with your AI assistant?
+                        <br>
+                        Ask me about your tasks, goals, projects, travel plans, learning objectives, or anything you'd like help organizing.
+                        </div>
+                        """, unsafe_allow_html=True)
+
+    # -------------------------
+    # Display Previous Messages
+    # -------------------------
+    for role, message in st.session_state.history:
+        with st.chat_message(role):
+            st.markdown(message)
+
+    # -------------------------
+    # Chat Input
+    # -------------------------
     examples = [
-                    " EX: Plan my trip to London this Saturday. I love coffee. Suggest places to visit and remind me when I arrive.",
-                    "Remind me to renew my passport next before July31st.",
-                    "Help me create a study plan for Ethics in AI.",
-                    "Track my job applications and suggest next steps.",
-                    "I need to book an appointment Dental cleaning tomorrow at 2PM.",
-                    "Organize my tasks by priority and deadline."
-                ]
+        "EX: Plan my trip to London this Saturday. I love coffee. Suggest places to visit and remind me when I arrive.",
+        "Remind me to renew my passport before July 31st.",
+        "Help me create a study plan for Ethics in AI.",
+        "Track my job applications and suggest next steps.",
+        "I need to book a dental cleaning appointment tomorrow at 2 PM.",
+        "Organize my tasks by priority and deadline."
+    ]
 
-    user_message = st.chat_input(
-                    placeholder=random.choice(examples)
-                )
+    st.caption(
+    "💡 Try asking: " + random.choice(examples)
+    
+    )
 
-    if user_message:
-        st.session_state.history.append(("user", user_message))
+    prompt = st.chat_input(
+    "What can i do for you?",
+    disabled=st.session_state.processing
+    )
 
-        with st.spinner("Thinking..."):
-            try:
-                st.write("DEBUG: calling agent...")
-                response, patches = run_agent_streamlit(user_message)
-                st.write("DEBUG: agent returned")
-            except Exception as e:
-                st.exception(e)
-                st.stop()
 
-            final_msg = ""
+    if prompt:
 
-            ai_messages = [
-                m for m in response
-                if isinstance(m, AIMessage)
-            ]
+        st.session_state.processing = True
 
-            if ai_messages:
-                last_ai = ai_messages[-1]
-                content = last_ai.content
+        st.session_state.history.append(
+            ("user", prompt)
+        )
 
-                if isinstance(content, str):
-                    final_msg = content.replace("AI_response:", "").strip()
+        with st.chat_message("user"):
+            st.markdown(prompt)
 
-                elif isinstance(content, list):
-                    final_msg = str(content)
 
-        if final_msg:
-            st.session_state.history.append(("ai", final_msg))
+        try:
+
+            with st.spinner("🤖 Thinking..."):
+
+                response, patches = run_agent_streamlit(prompt)
+
+
+            final_msg = "⚠️ No response generated."
+
+
+            for msg in reversed(response):
+
+                if isinstance(msg, AIMessage):
+
+                    if isinstance(msg.content, str):
+
+                        final_msg = (
+                            msg.content
+                            .replace("AI_response:", "")
+                            .strip()
+                        )
+
+                        break
+
+
+            with st.chat_message("assistant"):
+
+                st.markdown(final_msg)
+
+
+            st.session_state.history.append(
+                ("assistant", final_msg)
+            )
+
 
             if patches:
+
                 st.session_state.patches = patches
 
-            st.rerun()
-        else:
-            st.error("No response generated from agent.")
 
-    st.write("DEBUG: page loaded")
-    st.write("DEBUG history:", st.session_state.history)
+        except Exception as e:
+
+            st.exception(e)
+
+
+        finally:
+
+            st.session_state.processing = False
+
+
 
 # -------------------------------
 # Task Dashboard Page

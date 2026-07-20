@@ -11,12 +11,11 @@ from agent.schemas import LLM_Instructions
 
 
 
-
 # set up instructions
 
 llm_instruction = """ You are a helpful React agent assistant with memory who responds proffesionaly to the user and assists him with managing the task and todo list.
                         You have the memory of previous interactions, semantic memory of user as user profile, todo list (containing ongoing, completed or 
-                        yet to complete with dedalines), memories of instructions on task completion (either given by the user or self updated).
+                        yet to complete with deadlines), memories of instructions on task completion (either given by the user or self updated).
 
                         Here are your memories(May be empty sometimes):
                         Profile Memory: <user_profile>{profile_memory}</user_profile>\n
@@ -98,16 +97,24 @@ def LLM_chatbot(state:MessagesState , config: RunnableConfig , store:BaseStore):
     # set system instruction
     llm_sys_instr = SystemMessage(content=llm_instruction.format(profile_memory = profile_content , todo_memory= todo_content , intructions_memory= instr_content))
 
+    print("3. ENTER CHATBOT")
     response = llm_with_tool.invoke([llm_sys_instr] + state['messages'])
+    print("4. AFTER LLM")
     #print(f"LLM Response: {response}")
 
     # route AI message
+    # If tool call → route
     if response.tool_calls:
-        return {'messages': [response]}
-    else:
-        final_answer = AIMessage(content=response.content[0]['text'] , Role = 'AI' )
-        #print("Final Answer: ", final_answer)
-        return {'messages': [final_answer]}
+        return {"messages": [response]}
+
+    # Fallback final answer
+    final_text = response.content[-1]['text']
+    print("5. FINAL RESPONSE: ", final_text)
+    return {
+    "messages": [
+        AIMessage(content=final_text)
+    ]
+}
 
 
 # define the update profile node
@@ -183,7 +190,7 @@ def update_profile(state:MessagesState , config:RunnableConfig , store:BaseStore
 
     # update tool message
     id = state['messages'][-1].tool_calls[0]['id']
-    return {'messages' : [ToolMessage(content = "Profile Memory updated" , Role = "Tool" , tool_call_id = id)]}         
+    return {'messages' : [ToolMessage(content = "Profile Memory updated", tool_call_id = id)]}         
 
 trustcall_todo_instr = """
 Your task is to extract, create, and update the user's ToDo items based on the 
@@ -259,7 +266,7 @@ def todo_update(state:MessagesState , config:RunnableConfig , store:BaseStore):
     # update tool message
     id = state['messages'][-1].tool_calls[0]['id']
     tool_content = extract_tool_info(spy.called_tools , tool_name)
-    return {'messages' : [ToolMessage(content = tool_content , role = "Tool" , tool_call_id = id)]}        
+    return {'messages' : [ToolMessage(content = tool_content , tool_call_id = id)]}        
 
 
 
@@ -307,6 +314,4 @@ def update_instruction(state:MessagesState , config:RunnableConfig , store:BaseS
 
     # update the state
     id = state['messages'][-1].tool_calls[0]['id']
-    return {'messages': ToolMessage(content = "Instruction for todo list are updated." , role = "LLM" , tool_call_id = id)} 
-
-
+    return {'messages': ToolMessage(content = "Instruction for todo list are updated." , tool_call_id = id)} 
