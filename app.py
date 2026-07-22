@@ -1,3 +1,4 @@
+from altair import value
 import streamlit as st
 #from streamlit_chat import message
 from datetime import datetime
@@ -21,26 +22,35 @@ if st.session_state.user_id == "":
     col1, col2, col3 = st.columns([1, 2, 1])
 
     with col2:
-        st.markdown("<h1 style='text-align: center;'>👋 Welcome to Your AI Task Manager</h1>", unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; font-size:19px;'>Please enter your name to begin.</p>", unsafe_allow_html=True)
-
         st.markdown(
-            "<label style='font-size: 18px; font-weight: 600;'>Your Name:</label>",
+            "<h1 style='text-align: center;'>👋 Welcome to Your AI Task Manager</h1>",
+            unsafe_allow_html=True
+        )
+        st.markdown(
+            "<p style='text-align: center; font-size:19px;'>Please enter your name to begin.</p>",
             unsafe_allow_html=True
         )
 
-        name = st.text_input(
-            "Your Name",
-            key="login_name",
-            placeholder="Type your name here...",
-            label_visibility="collapsed"
-        )
+        with st.form("login_form"):
 
+            st.markdown(
+                "<label style='font-size:18px; font-weight:600;'>Your Name:</label>",
+                unsafe_allow_html=True
+            )
 
-        st.write("")
-        st.write("")
+            name = st.text_input(
+                "Your Name",
+                key="login_name",
+                placeholder="Type your name here...",
+                label_visibility="collapsed"
+            )
 
-        if st.button("Start", use_container_width=True):
+            submitted = st.form_submit_button(
+                "🚀 Start",
+                use_container_width=True
+            )
+
+        if submitted:
             if name.strip():
                 st.session_state.user_id = name.strip()
                 st.rerun()
@@ -52,7 +62,13 @@ if st.session_state.user_id == "":
 # -------------------------------
 with st.sidebar:
     st.header("📌 Navigation")
-    page = st.radio("Go to:", ["Chat", "Task Dashboard", "Memory Store", "Patch Viewer"])
+    page = st.radio("Go to:", 
+        [        
+        "💬 Chat",
+        "📋 Task Dashboard",
+        "🧠 Memory Store",
+        "🔍 Agent Learning & Reasoning"
+        ])
 
 user_id = str(st.session_state.user_id)
 config = {"configurable": {"thread_id": user_id, "user_id": user_id}}
@@ -90,16 +106,16 @@ def run_agent_streamlit(user_message):
         },
         config=config
     )
-
+    #print("result:", result)
+    
     return (
-        result["messages"],
-        result.get("patches")
+        result["messages"]
     )
 
 # -------------------------------
 # Chat Page
 # -------------------------------
-if page == "Chat":
+if page == "💬 Chat":
 
     # -------------------------
     # Add Markdown for Instructions
@@ -180,15 +196,15 @@ if page == "Chat":
 
                         .ready-box {
                             background-color:#3B3B3B;
-                            padding:8px 12px;
+                            padding:10px 15px;
                             border-radius:10px;
                             margin-top:5px;
                             margin-bottom:-25px;
                             color:#E5E5E5;
                             text-align:center;
-                            font-size:16px;
-                            font-weight:600;
-                            line-height:1.3;
+                            font-size:19px;
+                            font-weight:700;
+                            line-height:1;
                         }
 
 
@@ -286,7 +302,7 @@ if page == "Chat":
                         <div class="ready-box">
 
                         💬 Ready to collaborate with your AI assistant?
-                        <br>
+                        <br><br>
                         Ask me about your tasks, goals, projects, travel plans, learning objectives, or anything you'd like help organizing.
                         </div>
                         """, unsafe_allow_html=True)
@@ -301,12 +317,13 @@ if page == "Chat":
     # -------------------------
     # Chat Input
     # -------------------------
+
     examples = [
-        "EX: Plan my trip to London this Saturday. I love coffee. Suggest places to visit and remind me when I arrive.",
-        "Remind me to renew my passport before July 31st.",
-        "Help me create a study plan for Ethics in AI.",
-        "Track my job applications and suggest next steps.",
-        "I need to book a dental cleaning appointment tomorrow at 2 PM.",
+        "EX: I'm planning a trip to London this Saturday, I love coffee. Suggest places to visit.",
+        "I need to renew my passport before July 31st.",
+        "My next meeting with the team is on Friday at 3 PM. Can you remind me?",
+        "What's in my agenda for today?",
+        "When is my next meeting with the team?",
         "Organize my tasks by priority and deadline."
     ]
 
@@ -319,7 +336,7 @@ if page == "Chat":
     "What can i do for you?",
     disabled=st.session_state.processing
     )
-
+    #st.write("DEBUG prompt:", repr(prompt))
 
     if prompt:
 
@@ -337,7 +354,7 @@ if page == "Chat":
 
             with st.spinner("🤖 Thinking..."):
 
-                response, patches = run_agent_streamlit(prompt)
+                response= run_agent_streamlit(prompt)
 
 
             final_msg = "⚠️ No response generated."
@@ -367,19 +384,10 @@ if page == "Chat":
                 ("assistant", final_msg)
             )
 
-
-            if patches:
-
-                st.session_state.patches = patches
-
-
         except Exception as e:
-
             st.exception(e)
 
-
         finally:
-
             st.session_state.processing = False
 
 
@@ -387,25 +395,65 @@ if page == "Chat":
 # -------------------------------
 # Task Dashboard Page
 # -------------------------------
-elif page == "Task Dashboard":
+elif page == "📋 Task Dashboard":
     st.subheader("📋 Task Dashboard")
-    html = render_html_dashboard(user_id, store_memory)
-    st.components.v1.html(html, height=600, scrolling=True)
+    #----------------------------
+    # Show all tasks toggle
+    #----------------------------
+
+    st.markdown(
+    """
+    <style>
+    /* Toggle label */
+    div[data-testid="stToggle"] label {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    /* Toggle ON color */
+    div[data-testid="stToggle"] div[role="switch"][aria-checked="true"] {
+        background-color: #2e7d32 !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+
+    show_all = st.toggle(
+        "📚 Show All Tasks",
+        value=False
+    )
+
+    html = render_html_dashboard(
+        user_id,
+        store_memory,
+        #show_all=show_all
+    )
+
+    if show_all:
+        scrolling = True
+    else:
+        scrolling = False
+
+    st.components.v1.html(
+        html,
+        height=800,
+        scrolling=scrolling
+    )
 
 # -------------------------------
 # Memory Store Page
 # -------------------------------
-elif page == "Memory Store":
+elif page == "🧠 Memory Store":
     st.subheader("🧠 Long‑Term Memory Store")
 
     namespaces = [
         ("UserProfile", user_id),
-        ("ToDo", user_id),
-        ("Instructions", user_id)
+        ("ToDo", user_id)
     ]
 
     for ns in namespaces:
-        st.markdown(f"### 📌 Namespace: `{ns[0]}` — User: `{ns[1]}`")
+        st.markdown(f"### 📌 Store: `{ns[0]}` — User: `{ns[1]}`")
         items = store_memory.search(ns)
 
         if not items:
@@ -416,12 +464,25 @@ elif page == "Memory Store":
             st.json(m.value)
 
 # -------------------------------
-# Patch Viewer Page
+# Agent Learning & Reasoning Viewer
 # -------------------------------
-elif page == "Patch Viewer":
-    st.subheader("🔍 Patch Viewer (Tool Call Visibility)")
-    if "patches" in st.session_state:
-        html = render_patch_html(st.session_state.patches)
-        st.components.v1.html(html, height=600, scrolling=True)
+elif page == "🔍 Agent Learning & Reasoning":
+
+    st.title("🔬 Agent Learning & Reasoning")
+
+    st.caption(
+        "🌟 View how the AI agent interpreted your request, learned from the conversation, "
+        "updated long-term memory, and planned its next actions."
+    )
+
+    namespace = ("reasoning_memory", user_id)
+
+    memory_items = store_memory.search(namespace)
+    if not memory_items:
+        st.info(
+            "No reasoning available yet. Start chatting with the AI assistant to see its learning and reasoning process."
+        )
     else:
-        st.info("No patches yet. Chat with the agent first.")
+        latest_memory = memory_items[-1]
+        st.markdown(latest_memory.value["reasoning_summary"], unsafe_allow_html=True)
+    

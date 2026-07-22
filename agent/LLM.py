@@ -20,7 +20,7 @@ llm.invoke("What day is this?").content
 
 # 1. define a router class to select type of memory to update in the function
 class Updatememory(TypedDict):
-    update_type : Literal['update_profile', 'todo_update', 'update_instruction']
+    update_type : Literal['update_profile', 'todo_update', 'agent_learning_resoning']
 
 
 # bind the class a stool to LLM

@@ -1,7 +1,7 @@
 
 import datetime
 
-def render_html_dashboard(user_id: str, store_memory):
+def render_html_dashboard(user_id: str, store_memory) -> str:
     namespace = ("ToDo", str(user_id))
     tasks = store_memory.search(namespace)
 

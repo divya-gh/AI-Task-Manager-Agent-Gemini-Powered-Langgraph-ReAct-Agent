@@ -5,7 +5,7 @@ from langgraph.graph import END
 from langgraph.store.base import BaseStore
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph import MessagesState
-from agent.nodes import LLM_chatbot, update_profile, update_instruction, todo_update
+from agent.nodes import LLM_chatbot, update_profile, agent_learning_resoning, todo_update
 
 
 
@@ -30,9 +30,9 @@ def router(state: MessagesState) -> str:
         elif tool_calls['args']['update_type'] == 'todo_update':
             print("6. TODO")
             return 'todo_update'
-        elif tool_calls['args']['update_type'] == 'update_instruction':
-            print("6. INSTRUCTION")
-            return 'update_instruction'
+        elif tool_calls['args']['update_type'] == 'agent_learning_resoning':
+            print("6. REASONING")
+            return 'agent_learning_resoning'
         else:
             raise ValueError("Unknown update_type") 
 

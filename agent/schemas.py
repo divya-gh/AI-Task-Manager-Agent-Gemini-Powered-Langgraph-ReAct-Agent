@@ -77,10 +77,10 @@ class ToDo(BaseModel):
 
 
 # -----------------------------
-# Instruction Memory
+# Reasoning Memory
 # -----------------------------
-class LLM_Instructions(BaseModel):
+class LLM_reasoning(BaseModel):
 
-    instructions: str = Field(
-        description="Instructions for managing the todo list"
+    memory: str = Field(
+        description="Markdown formatted summary of the agent's reasoning and learning from the latest user interaction"
     )
