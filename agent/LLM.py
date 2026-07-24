@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from google import genai
 from langchain_google_genai import ChatGoogleGenerativeAI
 from typing import TypedDict , Literal , Optional
+from pydantic import BaseModel, Field
 
 
 load_dotenv()
@@ -16,12 +17,27 @@ client = genai.Client(api_key = os.environ["GOOGLE_API_KEY"])
 llm = ChatGoogleGenerativeAI( model= "gemini-3.1-flash-lite-preview" , 
                               temperature = 0.2 )
 
-llm.invoke("What day is this?").content
+#llm.invoke("What day is this?").content
 
 # 1. define a router class to select type of memory to update in the function
 class Updatememory(TypedDict):
     update_type : Literal['update_profile', 'todo_update', 'agent_learning_resoning']
 
+# Tavily seach class
+class search_tavily(BaseModel):
+    search_query: str = Field(
+        description=" LLM generated seach query for Tavily search engine"
+        )
+
+
 
 # bind the class a stool to LLM
-llm_with_tool = llm.bind_tools([Updatememory])
+llm_with_tool = llm.bind_tools([Updatememory], search_tavily)
+
+#------------------------------------------------------------
+#Configure Tavily
+#-----------------------------------------------------------
+
+from tavily import TavilyClient
+tavily_client = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
+

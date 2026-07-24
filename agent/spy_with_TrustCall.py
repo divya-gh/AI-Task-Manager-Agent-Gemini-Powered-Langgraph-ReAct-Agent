@@ -2,7 +2,7 @@
 from trustcall import create_extractor
 from langchain_core.messages import AIMessage , HumanMessage , SystemMessage
 from agent.LLM import llm
-from agent.schemas import UserProfile, ToDo
+from agent.schemas import UserProfile, ToDo, search_history
 
 #trustcall to extract profile information
 profile_extractor = create_extractor(llm,
@@ -41,3 +41,10 @@ trustcall_todo = create_extractor(llm,
                                   ).with_listeners(on_end=spy)
 
 
+# create a tavily trustcall extractor
+trustcall_search = create_extractor(llm,
+                                  tools=[search_history],
+                                  tool_choice="search_history",
+                                  enable_inserts=True,
+                                  enable_updates=True,
+                                  )

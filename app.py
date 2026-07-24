@@ -19,43 +19,158 @@ if "user_id" not in st.session_state:
     st.session_state.user_id = ""
 
 if st.session_state.user_id == "":
-    col1, col2, col3 = st.columns([1, 2, 1])
 
-    with col2:
+    st.markdown("""
+    <style>
+
+    /* Background */
+    .stApp{
+        background:
+            radial-gradient(circle at top left,#1e293b,#0f172a 40%,#020617 100%);
+    }
+
+    /* Make page narrower */
+    .main .block-container{
+        max-width:720px;
+        padding-top:70px;
+    }
+
+    /* Glass card */
+    div[data-testid="stVerticalBlock"]:has(form){
+        background:rgba(255,255,255,0.08);
+        backdrop-filter:blur(18px);
+        border:1px solid rgba(255,255,255,.15);
+        border-radius:24px;
+        padding:35px;
+        box-shadow:0 30px 80px rgba(0,0,0,.45);
+    }
+
+    /* Title */
+
+    h1{
+        color:white !important;
+        text-align:center;
+        font-size:54px !important;
+        margin-bottom:10px;
+    }
+
+    /* Subtitle */
+
+    .subtitle{
+        text-align:center;
+        color:#cbd5e1;
+        font-size:20px;
+        margin-bottom:30px;
+    }
+
+    /* Input */
+
+    div[data-testid="stTextInput"] input{
+        background:#0f172a;
+        color:white;
+        border:1px solid #334155;
+        border-radius:14px;
+        height:56px;
+        font-size:18px;
+    }
+
+    div[data-testid="stTextInput"] input:focus{
+        border:2px solid #22c55e;
+    }
+
+    /* Button */
+
+    div.stButton > button{
+        width:100%;
+        height:56px;
+        border-radius:14px;
+        background:linear-gradient(90deg,#22c55e,#16a34a);
+        color:white;
+        border:none;
+        font-size:18px;
+        font-weight:700;
+    }
+
+    div.stButton > button:hover{
+        transform:translateY(-2px);
+    }
+
+    /* Hide Streamlit decoration */
+
+    header{
+        visibility:hidden;
+    }
+
+    #MainMenu{
+        visibility:hidden;
+    }
+
+    footer{
+        visibility:hidden;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+
+    _, center, _ = st.columns([1,2,1])
+
+    with center:
+
+        st.markdown("<h1> 🤖 AI Task Manager</h1>", unsafe_allow_html=True)
+
         st.markdown(
-            "<h1 style='text-align: center;'>👋 Welcome to Your AI Task Manager</h1>",
-            unsafe_allow_html=True
+            "<p class='subtitle'>Your intelligent personal productivity assistant</p>",
+            unsafe_allow_html=True,
         )
+        st.write("")
+
+        with st.form("login"):
+
+                name = st.text_input(
+                    "",
+                    placeholder="👤 Enter your name...",
+                    label_visibility="collapsed"
+                )
+
+                submitted = st.form_submit_button(
+                    "🚀 Get Started",
+                    use_container_width=True
+                )
+
+                if submitted:
+                    if name.strip():
+                        st.session_state.user_id = name.strip()
+                        st.rerun()
+                    else:
+                        st.warning("Please enter your name.")
+
         st.markdown(
-            "<p style='text-align: center; font-size:19px;'>Please enter your name to begin.</p>",
-            unsafe_allow_html=True
-        )
-
-        with st.form("login_form"):
-
-            st.markdown(
-                "<label style='font-size:18px; font-weight:600;'>Your Name:</label>",
-                unsafe_allow_html=True
-            )
-
-            name = st.text_input(
-                "Your Name",
-                key="login_name",
-                placeholder="Type your name here...",
-                label_visibility="collapsed"
-            )
-
-            submitted = st.form_submit_button(
-                "🚀 Start",
-                use_container_width=True
-            )
-
-        if submitted:
-            if name.strip():
-                st.session_state.user_id = name.strip()
-                st.rerun()
+                            """
+                            <div style="
+                            text-align:center;
+                            color:#94A3B8;
+                            font-size:12px;
+                            font: Times New Roman;                                                   
+                            "> &nbsp;&nbsp&nbsp;&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp; Powered by
+                            </div>
+                            <div style="
+                            text-align:center;
+                            color:#94A3B8;
+                            font-size:16px;
+                            margin-top:2px;
+                            "> &nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp 🧠 Gemini &nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp
+                            🌐 Tavily Search &nbsp;&nbsp;
+                            ⚡ LangGraph &nbsp;&nbsp&nbsp;&nbsp&nbsp;&nbsp
+                            💾 Long-Term Memory
+                            </div>
+                            """,
+                            unsafe_allow_html=True,
+                        )
 
     st.stop()
+
+
+
 
 # -------------------------------
 # Sidebar Navigation
@@ -66,8 +181,9 @@ with st.sidebar:
         [        
         "💬 Chat",
         "📋 Task Dashboard",
+        "🌐 Search History",
         "🧠 Memory Store",
-        "🔍 Agent Learning & Reasoning"
+        "🔍 Agent Learning & Reasoning",
         ])
 
 user_id = str(st.session_state.user_id)
@@ -150,7 +266,7 @@ if page == "💬 Chat":
 
                             background-color:#2B2B2B;
 
-                            padding:15px 14px;
+                            padding:18px 10px;
 
                             border-radius:9px;
 
@@ -173,8 +289,8 @@ if page == "💬 Chat":
 
                             font-size:15px;
                             color:#D0D0D0;
-                            margin-top:6px;
-                            line-height:1.5;
+                            margin-top:3px;
+                            line-height:1;
 
                         }
 
@@ -200,7 +316,7 @@ if page == "💬 Chat":
                             border-radius:10px;
                             margin-top:5px;
                             margin-bottom:-25px;
-                            color:#E5E5E5;
+                            color:#ADD8E6;
                             text-align:center;
                             font-size:19px;
                             font-weight:700;
@@ -222,18 +338,15 @@ if page == "💬 Chat":
 
                         <div class="hero-subtitle">
 
-                        An intelligent productivity partner powered by Gemini + LangGraph.<br>
-                        More than a simple to-do list, I'm an AI-powered productivity partner that learns how you work, adapts to your preferences, and helps you stay organized and focused.
+                        More than a traditional to-do app, this AI agent understands your goals, remembers what matters, searches the web when needed, and helps you stay organized through natural conversation.
 
                         </div>
 
                         <div class="section-header">
                         🚀 Agent Capabilities
                         </div>
-
                         <div class="feature-card">
                         <div class="feature-title">
-
                         ✅ Autonomous Task Management
 
                         </div>
@@ -242,45 +355,48 @@ if page == "💬 Chat":
                         Create, update, prioritize, organize, and track tasks through natural conversation.
                         </div>
                         </div>
-
                         <div class="feature-card">
                         <div class="feature-title">
-
                         🧠 Long-Term Memory
 
                         </div>
                         <div class="feature-text">
-                        Learns your preferences, goals, interests, and working style to provide personalized assistance.
+                        Remembers your preferences, goals, deadlines, and past conversations to personalize every interaction.
 
                         </div>
                         </div>
-
                         <div class="feature-card">
                         <div class="feature-title">
-
-                        📝 Intelligent Planning & Reasoning
+                        📝 Intelligent AI Planning & Reasoning
 
                         </div>
                         <div class="feature-text">
-                        Breaks complex goals into actionable steps, identifies missing information,
-                        and recommends next actions.
+                        Breaks down complex goals, recommends next steps, and explains its reasoning transparently.
 
                         </div>
                         </div>
-
                         <div class="feature-card">
                         <div class="feature-title">
+                        🌐 Live Web Search
 
+                        </div>
+
+                        <div class="feature-text">
+                        Uses Tavily Search to retrieve current information whenever your question requires up-to-date answers.
+
+                        </div>
+                        </div>
+                        <div class="feature-card">
+                        <div class="feature-title">
                         🤝 Human-in-the-Loop Control
 
                         </div>
 
                         <div class="feature-text">
-                        Keeps you in control by allowing review and approval before important decisions.
+                        Keeps you in control by requesting approval before important actions or changes.
 
                         </div>
                         </div>
-
                         <div class="feature-card">
                         <div class="feature-title">
                         🔍 Transparent AI Operations
@@ -288,7 +404,7 @@ if page == "💬 Chat":
                         </div>
 
                         <div class="feature-text">
-                        Understand how the agent works through memory visibility and tool execution tracking.
+                        Inspect the agent's memory, reasoning process, and tool usage to understand how decisions are made..
 
                         </div>
                         </div>
@@ -296,7 +412,8 @@ if page == "💬 Chat":
                         <b>Explore Your AI Workspace</b><br>
                           📋 <b>Task Dashboard</b> — Manage your active goals and tasks<br>
                           🧠 <b>Memory Store</b> — View what your AI assistant remembers<br>
-                          🔍 <b>Patch Viewer</b> — Inspect agent actions and decisions
+                          🔍 <b>Agent Learning & Reasoning</b> — Inspect agent actions and decisions<br>  
+                          🌐 <b>Search History</b> — Review previous web searches
                         </div>
 
                         <div class="ready-box">
@@ -323,8 +440,9 @@ if page == "💬 Chat":
         "I need to renew my passport before July 31st.",
         "My next meeting with the team is on Friday at 3 PM. Can you remind me?",
         "What's in my agenda for today?",
-        "When is my next meeting with the team?",
-        "Organize my tasks by priority and deadline."
+        "Inform team about the delivery meeting this evening at 4.30PM or When is my next meeting with the team?",
+        "Organize my tasks by priority and deadline.",
+        "My niece is coming to visit this Friday. Can you suggest some fun activities for us to do together?",
     ]
 
     st.caption(
@@ -441,6 +559,42 @@ elif page == "📋 Task Dashboard":
         scrolling=scrolling
     )
 
+#-----------------------------------
+# Search History
+#----------------------------------
+
+elif page == "🌐 Search History":
+
+    st.title("🌐 Search History")
+
+    namespace = ("search_history", user_id)
+
+    searches = store_memory.search(namespace)
+
+    if not searches:
+        st.info("No internet searches yet.")
+
+    else:
+
+        searches = sorted(
+            searches,
+            key=lambda x: x.value["DateTime"],
+            reverse=True,
+        )
+
+        for item in searches:
+
+            with st.expander(
+                f"🔎 {item.value['Query']}",
+                expanded=False,
+            ):
+
+                st.caption(item.value["DateTime"])
+                st.markdown("### Answer")
+                st.write(item.value["Answer"])
+                st.write("Citation:", item.value['Cite'])
+
+
 # -------------------------------
 # Memory Store Page
 # -------------------------------
@@ -484,5 +638,9 @@ elif page == "🔍 Agent Learning & Reasoning":
         )
     else:
         latest_memory = memory_items[-1]
-        st.markdown(latest_memory.value["reasoning_summary"], unsafe_allow_html=True)
+        reasoning = latest_memory.value["reasoning_summary"]
+        reasoning = reasoning.replace("####", "\n\n####")
+        
+        with st.expander("🧠 Agent Reasoning", expanded=True):
+            st.markdown(reasoning)
     

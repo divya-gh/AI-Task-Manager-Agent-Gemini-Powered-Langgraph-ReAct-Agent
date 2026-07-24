@@ -2,10 +2,11 @@
 from langgraph.graph import MessagesState 
 from langchain_core.runnables import RunnableConfig
 from langgraph.store.base import BaseStore
-from agent.LLM import llm , llm_with_tool
+from agent.LLM import llm , llm_with_tool, tavily_client
+from langchain_tavily import TavilySearch
 import uuid
-from langchain_core.messages import AIMessage, HumanMessage , SystemMessage
-from agent.spy_with_TrustCall import profile_extractor , trustcall_todo , spy
+from langchain_core.messages import AIMessage, HumanMessage , SystemMessage , ToolMessage
+from agent.spy_with_TrustCall import profile_extractor , trustcall_todo , spy , trustcall_search
 from agent.spy_toolcall_info import extract_tool_info
 from agent.schemas import LLM_reasoning
 
@@ -28,12 +29,13 @@ llm_instruction = """ You are a helpful React agent assistant with memory who re
                             1. If personal or semantic facts are given[likes, loves, intrests, wants, desires etc], update the user profile by calling 
                                 'Updatememory' tool with the 'update_type' as 'update_profile'. If relationships are mentioned, update the user profile with the relationship information[must].
                             2. If todo , plan or tasks are mentioned, update the todo list by calling 'Updatememory' tool with the 'update_type' as 'todo_update'.
-                            3. Use 'Updatememory' tool with the 'update_type' as 'agent_learning_resoning'with every interaction to showcase your resoning.
+                            3. Use 'Updatememory' tool with the 'update_type' as 'agent_learning_resoning'with every interaction to showcase your reasoning.
+                            4. Call 'search_tavily' tool whenever user wants a current information from the internet.Generate a 'search_query' as an arg. for tavily seach engine.
                         - use your react skills to reflect on HumanMessage and memories again to re call the tool `Updatememory` 
                         with update type 'update_profile' , 'todo_update' or 'agent_learning_resoning' to update any missing information. 
-                        - Update or inform the user about memory update only if it is related to or about the `todo list`. Do not talk about profile or reasoning used.
-                        - Do not perform parallel tool calling. Only call one tool at a time
-                        -  Do not omit information, hallucinate or invent information while updating the memory or responding to the user.
+                        - Update or inform the user about memory update only if it is related to or about the `todo list`. Do not talk about profile update, agent reasoning or tavily search.
+                        - Do not perform parallel tool calling with Updatememory tool. Call one tool at a time. 
+                        - Do not omit information, hallucinate or invent information while updating the memory or responding to the user.
                         - go through the HumanMessages again to see if all the user information is updated in the memory. do not miss any facts or interests.
                         - Be therough , helpful and natural
                         Instruction to respond to the user:
@@ -41,9 +43,11 @@ llm_instruction = """ You are a helpful React agent assistant with memory who re
                         2. Keep in mind that sometimes memory can be None if no information were stored 
                         3. Make sure all the tools are called (Example: user may want to update all types of memories. That is profile , 
                         reasoning and todo list. If you see any memory is missing facts mentioned by the user
-                        call the appropriate tool with their 'update_type'.
-                        2. If you are done with all the tool call types,  generate a final answer in the format : `AI_response:` , which is a response to the user
-                        3. If you have generated a `AI_response:`, END the conversation .
+                        call the appropriate tool with their 'update_type'again.
+                        2. If you are done with all the tool call types,  generate a final answer in the format : `AI_response:` , which is a response to the user.
+                        3. If search_tavily tool was called, use the tool message with content "Tavily Results" for current information to generate the file 'AI Response'.
+                        4. Pick the best reslut from two to generate the final 'AI Response'
+                        4. If you have generated a `AI_response:`, END the conversation .
                         """
 
 
@@ -109,11 +113,8 @@ def LLM_chatbot(state:MessagesState , config: RunnableConfig , store:BaseStore):
     # Fallback final answer
     final_text = response.content[-1]['text']
     #print("5. FINAL RESPONSE: ", final_text)
-    return {
-    "messages": [
-        AIMessage(content=final_text)
-    ]
-}
+    return {"messages": [AIMessage(content=final_text)]
+            }
 
 
 # define the update profile node
@@ -261,8 +262,7 @@ def todo_update(state:MessagesState , config:RunnableConfig , store:BaseStore):
     # invoke extractor
     result = trustcall_todo.invoke({'messages' : merged_messages,
                                       'existing' : exiting_todo_content })
-    #print("Todo_trustcal_result: ", result)
-    #print("-"*40)
+    '''
     print("\nExisting Todo Memory")
     print("-" * 40)
 
@@ -270,14 +270,14 @@ def todo_update(state:MessagesState , config:RunnableConfig , store:BaseStore):
         print(t.key)
         print(t.value)
 
-    print("-" * 40)
+    print("-" * 40)'''
 
     # save memory in the store
     for content, rmd_id in zip(result['responses'], result['response_metadata']):
         # json patch id if updated or uuid if new memory is created
         key = rmd_id.get('json_doc_id' , str(uuid.uuid4()))
         store.put(namespace , key , content.model_dump(mode='json'))
-        print(f"Todo Updatedwith key: {key}")
+        #print(f"Todo Updatedwith key: {key}")
     # update tool message
     id = state['messages'][-1].tool_calls[0]['id']
     tool_content = extract_tool_info(spy.called_tools , tool_name)
@@ -478,52 +478,63 @@ Low
 Briefly explain why.
 
 ----------------------------------------
-Return EXACTLY the following markdown only in a GitHub-flavored Markdown.(important).
+Ensure they in a GitHub-flavored Markdown.(important).
+Start each section heading on a new line.
 
-### 🧠 Let's explore my Thinking...!
+Use this format exactly:
 
-#### 📥 Input Analysis
+#### 🧠 Let's explore my Thinking...!   
 
-• ...
+##### 📥 Input Analysis  
 
-• ...
+• ...  
 
-#### 🧠 Context Understanding
+• ...  
 
-...
+##### 🧠 Context Understanding   
 
-#### 📚 Learning
+...  
 
-• ...
+##### 📚 Learning   
 
-• ...
+• ...  
 
-#### 💡 Decision Process
+• ...  
 
-...
+##### 📝 Summary of previous memory   
 
-#### 💾 Memory Impact
+• ...  
 
-✓ ...
+• ...   
 
-✓ ...
+##### 💡 Decision Process  
 
-#### 🚀 Recommended Next Actions
+...   
 
-✓ ...
+##### 💾 Memory Impact   
 
-✓ ...
+✓ ...  
 
-#### ⚠️ Risk Assessment
+✓ ...   
 
-...
+##### 🚀 Recommended Next Actions  
 
-#### 🎯 Confidence
+✓ ...  
 
-High | Medium | Low
+✓ ...  
 
-**Reason:**
-...
+##### ⚠️ Risk Assessment  
+
+...  
+
+##### 🎯 Confidence  
+
+High | Medium | Low  
+
+**Reason:**  
+
+...  
+
 
 Requirements
 
@@ -576,3 +587,116 @@ def agent_learning_resoning(state:MessagesState , config:RunnableConfig , store:
     # update the state
     id = state['messages'][-1].tool_calls[0]['id']
     return {'messages': ToolMessage(content = "Reasoning for todo list are updated." , tool_call_id = id)} 
+
+#======================================================================================
+#create a node function for tavily search 
+#=======================================================================================
+
+trustcall_Search_Store_instr = """                    
+                            You maintain the user's web search history.
+                            Existing search history may already exist or may be None.
+                            Your task is to insert or update search history.
+
+                            For every search store:
+
+                            - DateTime
+                            - Query
+                            - Answer
+                            - Cite
+
+                            Rules:
+
+                            1. Preserve previous searches.
+                            2. If an identical query already exists,
+                            update its answer instead of creating a duplicate.
+                            3. You will be given search engine response. Pick the best answer out of two and keep it concise. 
+                            4. Remove duplicated information.
+
+                            Current time:
+                            {time}
+
+                            Latest query:
+                            {query}
+
+                            Latest answer:
+                            {answer}
+"""
+                    
+
+def search_tavily(state:MessagesState , config:RunnableConfig , store:BaseStore):
+    ''' NOde to serch for current information using tavily'''
+
+    # set configerations for extracting memory
+    user_id = str(config['configurable']['user_id'])
+    memory_name = 'search_history'
+    namespace = (memory_name , user_id)
+    key = "search"
+
+    tool_call = state["messages"][-1].tool_calls[0]
+
+    query = tool_call["args"]["search_query"]
+
+    id = state['messages'][-1].tool_calls[0]['id']
+
+    print(f"Tavily Query: {query}")
+
+    '''response = tavily_client.search(
+        query=query,
+        search_depth="advanced",
+        max_results=2,
+    )'''
+
+    tavily_Search = TavilySearch(max_results =2)
+    response = tavily_Search.invoke({'query': query})
+    #print("Response: ", response)
+    answers = "\n\n".join(r["content"] for r in response["results"])
+
+    print("-" * 40)
+    print("Answers: ", answers)
+
+
+    #------------------
+    # Save to memory
+    #------------------
+
+    # get memory
+    exiting_search = store.search(namespace)
+
+    # get content list of tuple
+    exiting_content = [(item.key , memory_name , item.value) for item in exiting_search]if exiting_search else None
+
+    # set systm instruction for Trustcall extracor
+    trustcall_sys_instr = SystemMessage(content=trustcall_Search_Store_instr.format(time = datetime.now().isoformat(), query = query, answer = response))
+
+    human_msg = HumanMessage(content="Add or update the Tavily search history.")
+
+    print("-" * 40)
+    print("\nExisting Memory")
+ 
+
+    # invoke extractor
+    result = trustcall_search.invoke({'messages' : [trustcall_sys_instr , human_msg],
+                                      'existing' : exiting_content })
+    
+    print("TrustCall_Result: ", result)
+    
+    # save memory in the store
+    for content, rmd_id in zip(result['responses'], result['response_metadata']):
+        # json patch id if updated or uuid if new memory is created
+        key = rmd_id.get('json_doc_id' , str(uuid.uuid4()))
+        store.put(namespace , key , content.model_dump(mode='json'))
+
+
+    #---------------------
+    #store last 10 history
+    #--------------------
+    # Keep only the latest 10
+    all_searches = sorted(store.search(namespace), key=lambda x: x.value["DateTime"], reverse=True,
+                        )
+
+    for item in all_searches[10:]:# keep 1st 10 
+        store.delete(namespace, item.key)
+    
+    return {'messages': ToolMessage(content = f"Tavily Results:\n\n{answers}" , tool_call_id = id)} 
+
+

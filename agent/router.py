@@ -13,26 +13,29 @@ from agent.nodes import LLM_chatbot, update_profile, agent_learning_resoning, to
 def router(state: MessagesState) -> str:
     ''' based on the tool call route the workflow to proper node'''
 
-    # get tool message
-    tool_message = state['messages'][-1]    
-    #print("Tool Call: ",tool_message)
+    last = state["messages"][-1]
 
-    # No tool call → go back to chatbot
-    if not tool_message.tool_calls:
+    if not last.tool_calls:
         return END
-    
-    else:
-        # get tool calls
-        tool_calls = tool_message.tool_calls[0]
-        if tool_calls['args']['update_type'] == 'update_profile':
-            print("6. PROFILE")
-            return 'update_profile'
-        elif tool_calls['args']['update_type'] == 'todo_update':
-            print("6. TODO")
-            return 'todo_update'
-        elif tool_calls['args']['update_type'] == 'agent_learning_resoning':
-            print("6. REASONING")
-            return 'agent_learning_resoning'
-        else:
-            raise ValueError("Unknown update_type") 
+
+    tool = last.tool_calls[0]["name"]
+
+    if tool == "search_tavily":
+        return "search_tavily"
+
+    if tool == "Updatememory":
+
+        update = last.tool_calls[0]["args"]["update_type"]
+
+        if update == "update_profile":
+            return "update_profile"
+
+        if update == "todo_update":
+            return "todo_update"
+
+        if update == "agent_learning_resoning":
+            return "agent_learning_resoning"
+
+    return END
+
 
