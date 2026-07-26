@@ -100,9 +100,9 @@ def LLM_chatbot(state:MessagesState , config: RunnableConfig , store:BaseStore):
     # set system instruction
     llm_sys_instr = SystemMessage(content=llm_instruction.format(profile_memory = profile_content , todo_memory= todo_content , reasoning_memory= instr_content))
 
-    print("3. ENTER CHATBOT")
+    ##print("3. ENTER CHATBOT")
     response = llm_with_tool.invoke([llm_sys_instr] + state['messages'])
-    print("4. AFTER LLM_CHATBOT")
+    #print("4. AFTER LLM_CHATBOT")
     #print(f"LLM Response: {response}")
 
     # route AI message
@@ -195,7 +195,7 @@ def update_profile(state:MessagesState , config:RunnableConfig , store:BaseStore
         # json patch id if updated or uuid if new memory is created
         key = result['response_metadata'][i].get('json_doc_id' , str(uuid.uuid4()))
         store.put(namespace , key , content.model_dump(mode='json'))
-    print(f"Profile Updated with key: {key}")
+    #print(f"Profile Updated with key: {key}")
     # update tool message
     id = state['messages'][-1].tool_calls[0]['id']
     return {'messages' : [ToolMessage(content = "Profile Memory updated", tool_call_id = id)]}         
@@ -227,7 +227,7 @@ Follow these rules carefully:
    - deadline (ISO format when possible)
    - instruction (given by the user for completing the task)
    - reminder time (if applicable)
-   - desired_solution (what needs to be done, remembered or taken care of to complete the task)
+   - desired_solution (what needs to be done, remembered or taken care of to complete the task. ex: restaurant: reserve table, ask/ inform other party, dress code etc, meeting: agenda discussion, how to prepare for the meeting etc.)
 7. Use memory to learn about the user and provide better solutions to his task so that he can manage it easily.
 8. If the user expresses intent to remember something for later (e.g., 
    “remind me”, “don’t let me forget”), convert it into a ToDo item with an 
@@ -583,7 +583,7 @@ def agent_learning_resoning(state:MessagesState , config:RunnableConfig , store:
     # save memory
     value = {'reasoning_summary': Response.memory }
     store.put(namespace , key , value)
-    print("Reasoning Memory Updated: ")
+    #print("Reasoning Memory Updated: ")
     # update the state
     id = state['messages'][-1].tool_calls[0]['id']
     return {'messages': ToolMessage(content = "Reasoning for todo list are updated." , tool_call_id = id)} 
@@ -594,23 +594,25 @@ def agent_learning_resoning(state:MessagesState , config:RunnableConfig , store:
 
 trustcall_Search_Store_instr = """                    
                             You maintain the user's web search history.
-                            Existing search history may already exist or may be None.
-                            Your task is to insert or update search history.
+                            Existing search history could be None.
+                            Your task is to create a new history (response)for each new query given.Do not update existing history if query doesnt match.
 
-                            For every search store:
-
+                            For every history, create:
                             - DateTime
                             - Query
                             - Answer
                             - Cite
 
                             Rules:
-
-                            1. Preserve previous searches.
-                            2. If an identical query already exists,
-                            update its answer instead of creating a duplicate.
-                            3. You will be given search engine response. Pick the best answer out of two and keep it concise. 
+                            1. Preserve previous searches.Dont touch the existing history unless query provided matches the existing history query.[ex:what is red? , explain red]
+                            2. Change the datetime to current datetime.
+                            2. create a new history for every new queries in the format provided above.
+                            3. You will be given 2 search engine response. Pick the best answer out of two and keep it concise. 
                             4. Remove duplicated information.
+
+                            Every search MUST have a new SearchID.
+                            Never reuse a SearchID.
+                            Never update an existing search.
 
                             Current time:
                             {time}
@@ -646,13 +648,15 @@ def search_tavily(state:MessagesState , config:RunnableConfig , store:BaseStore)
         max_results=2,
     )'''
 
-    tavily_Search = TavilySearch(max_results =2)
+    tavily_Search = TavilySearch(max_results =1)
     response = tavily_Search.invoke({'query': query})
     #print("Response: ", response)
-    answers = "\n\n".join(r["content"] for r in response["results"])
+    
 
-    print("-" * 40)
-    print("Answers: ", answers)
+    answer = [[item['url'], item['content']] for item in response['results']]
+
+    #print("-" * 40)
+    print("Answers: ", answer)
 
 
     #------------------
@@ -666,25 +670,27 @@ def search_tavily(state:MessagesState , config:RunnableConfig , store:BaseStore)
     exiting_content = [(item.key , memory_name , item.value) for item in exiting_search]if exiting_search else None
 
     # set systm instruction for Trustcall extracor
-    trustcall_sys_instr = SystemMessage(content=trustcall_Search_Store_instr.format(time = datetime.now().isoformat(), query = query, answer = response))
+    trustcall_sys_instr = SystemMessage(content=trustcall_Search_Store_instr.format(time = datetime.now().isoformat(), query = query, answer = answer))
 
-    human_msg = HumanMessage(content="Add or update the Tavily search history.")
+    #print("Trust_call_instr.content: ", trustcall_sys_instr)
+    human_msg = HumanMessage(content="Add to or update the Tavily search history.")
 
     print("-" * 40)
-    print("\nExisting Memory")
+    #print("\nExisting Memory: ", exiting_content)
  
 
     # invoke extractor
     result = trustcall_search.invoke({'messages' : [trustcall_sys_instr , human_msg],
                                       'existing' : exiting_content })
     
-    print("TrustCall_Result: ", result)
+    #print("TrustCall_Result: ", result)
     
     # save memory in the store
     for content, rmd_id in zip(result['responses'], result['response_metadata']):
         # json patch id if updated or uuid if new memory is created
         key = rmd_id.get('json_doc_id' , str(uuid.uuid4()))
         store.put(namespace , key , content.model_dump(mode='json'))
+        #print("content:", content)
 
 
     #---------------------
@@ -693,10 +699,11 @@ def search_tavily(state:MessagesState , config:RunnableConfig , store:BaseStore)
     # Keep only the latest 10
     all_searches = sorted(store.search(namespace), key=lambda x: x.value["DateTime"], reverse=True,
                         )
+    print("Memory: ", all_searches)
 
     for item in all_searches[10:]:# keep 1st 10 
         store.delete(namespace, item.key)
     
-    return {'messages': ToolMessage(content = f"Tavily Results:\n\n{answers}" , tool_call_id = id)} 
+    return {'messages': ToolMessage(content = f"Tavily Results:\n\n{answer}" , tool_call_id = id)} 
 
 

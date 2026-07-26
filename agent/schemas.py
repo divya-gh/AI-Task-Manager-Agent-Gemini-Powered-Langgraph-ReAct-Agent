@@ -89,6 +89,7 @@ class LLM_reasoning(BaseModel):
 #---------------------------
 
 class search_history(BaseModel):
+    SearchID: str = Field(description="Unique UUID for every search")
     DateTime: datetime = Field( default=None, description="current date and time" )
     Query: str = Field( default=None, description="User query about current affrairs")
     Answer: str = Field( default=None, description="Formatted Response from Tavily serch engine")

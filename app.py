@@ -312,13 +312,13 @@ if page == "💬 Chat":
 
                         .ready-box {
                             background-color:#3B3B3B;
-                            padding:10px 15px;
+                            padding:10px 20px;
                             border-radius:10px;
-                            margin-top:5px;
-                            margin-bottom:-25px;
+                            margin-top:20px;
+                            margin-bottom:-15px;
                             color:#ADD8E6;
                             text-align:center;
-                            font-size:19px;
+                            font-size:17px;
                             font-weight:700;
                             line-height:1;
                         }
@@ -519,23 +519,27 @@ elif page == "📋 Task Dashboard":
     # Show all tasks toggle
     #----------------------------
 
-    st.markdown(
-    """
-    <style>
-    /* Toggle label */
-    div[data-testid="stToggle"] label {
-        font-size: 16px;
-        font-weight: 600;
-    }
+    st.markdown("""
+                <style>
 
-    /* Toggle ON color */
-    div[data-testid="stToggle"] div[role="switch"][aria-checked="true"] {
-        background-color: #2e7d32 !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-    )
+                /* Label */
+                div[data-testid="stToggle"] label{
+                    font-size:16px;
+                    font-weight:600;
+                }
+
+                /* Toggle track ON */
+                div[data-testid="stToggle"] input:checked + div{
+                    background-color:#00FF00 !important;
+                }
+
+                /* Toggle thumb */
+                div[data-testid="stToggle"] div{
+                    transition:all .2s ease;
+                }
+
+                </style>
+                """, unsafe_allow_html=True)
 
     show_all = st.toggle(
         "📚 Show All Tasks",
@@ -555,7 +559,7 @@ elif page == "📋 Task Dashboard":
 
     st.components.v1.html(
         html,
-        height=800,
+        height=1200,
         scrolling=scrolling
     )
 
@@ -588,11 +592,11 @@ elif page == "🌐 Search History":
                 f"🔎 {item.value['Query']}",
                 expanded=False,
             ):
-
-                st.caption(item.value["DateTime"])
+                dt = datetime.fromisoformat(item.value["DateTime"])
+                st.caption(dt.strftime("%b %d, %Y • %I:%M %p"))
                 st.markdown("### Answer")
                 st.write(item.value["Answer"])
-                st.write("Citation:", item.value['Cite'])
+                st.markdown(f"**Source:** {item.value['Cite']}")
 
 
 # -------------------------------

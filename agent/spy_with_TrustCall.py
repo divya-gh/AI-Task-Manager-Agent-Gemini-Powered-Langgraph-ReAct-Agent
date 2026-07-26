@@ -46,5 +46,5 @@ trustcall_search = create_extractor(llm,
                                   tools=[search_history],
                                   tool_choice="search_history",
                                   enable_inserts=True,
-                                  enable_updates=True,
+                                  enable_updates=False,
                                   )
