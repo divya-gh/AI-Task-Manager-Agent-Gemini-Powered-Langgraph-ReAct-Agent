@@ -1,142 +1,360 @@
-# 📌 My Task Manager — Gemini‑Powered LangGraph ReAct Agent
-**A powerful, intelligent task‑management AI assistant that can reason, use tools, update long‑term memory, manage tasks, and even generate customized To‑Do cards — all inside a ReAct‑style workflow.**
+# 🧠 AI Task Manager Agent
+**Autonomous Personal Productivity Agent with Long-Term Memory, Web Search & Transparent Reasoning**
+
+A production-inspired AI agent that combines Gemini, LangGraph, Trustcall, Tavily Search, and persistent memory to autonomously manage tasks, reason through decisions, retrieve current information, and continuously personalize itself.
 
 `Agent is built using Gemini, LangGraph, TrustCall, and a custom SPY listener for full visibility into tool calls and JSON Patch updates.`
 
-### 🧠 How It Works
-**Below is a clean workflow diagram**
 
-                ┌──────────────────────────┐
-                │        User Input        │
-                └─────────────┬────────────┘
-                              │
-                              ▼
-                ┌──────────────────────────┐
-                │     Gemini LLM (ReAct)   │
-                │  Thought → Tool → Answer │
-                └─────────────┬────────────┘
-                              │
-                ┌─────────────┼──────────────┐
-                ▼             ▼               ▼
-      ┌────────────────┐  ┌────────────────┐  ┌────────────────────┐
-      │ UserProfile     │ │ ToDoItem       │ │ InstructionMemory   │
-      │ TrustCall Tool  │ │ TrustCall Tool │ │ TrustCall Tool      │
-      └────────────────┘  └────────────────┘  └────────────────────┘
-                │             │              │
-                └─────────────┼──────────────┘
-                              ▼
-                ┌──────────────────────────┐
-                │     Memory Store         │
-                └─────────────┬────────────┘
-                              │
-                              ▼
-                ┌──────────────────────────┐
-                │     SPY Listener          │
-                │  (Tool Call Visibility)   │
-                └─────────────┬────────────┘
-                              │
-                              ▼
-                ┌──────────────────────────┐
-                │   HTML Patch Viewer      │
-                └──────────────────────────┘
+### Autonomous AI Productivity Agent with Long-Term Memory, Real-Time Search, and Transparent Reasoning
 
-## 🚀 What This Agent Can Do
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4)
+![LangGraph](https://img.shields.io/badge/LangGraph-Agent-green)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
+![Trustcall](https://img.shields.io/badge/Trustcall-Memory-orange)
+![Tavily](https://img.shields.io/badge/Tavily-Web_Search-purple)
+![License](https://img.shields.io/badge/License-MIT-success)
 
-### 📝 1. Manage a Smart To‑Do List
-- Add new tasks
+---
+## 🚀 Overview
+
+AI Task Manager Agent is an **enterprise-inspired Agentic AI system** that combines **Gemini**, **LangGraph**, **Trustcall**, **Tavily Search**, and **persistent long-term memory** to help users manage tasks through natural conversations.
+
+**Unlike traditional chatbots, this agent can:**  
+- 🧠 Long‑term user memory that persists across sessions
+- 📋 Structured task management with updates, deadlines, and progress tracking
+- 🌐 Real‑time web search for current information
+- 💡 Transparent reasoning that explains how decisions are made
+- 🔄 Continuous learning through schema‑driven memory updates
+- 🤝 Human‑in‑the‑loop control for safe and predictable agent behavior  
+
+The project demonstrates modern **Agent Engineering** principles including **ReAct reasoning**, **tool orchestration**, **persistent memory**, **schema-driven extraction**, and **explainable AI**.
+
+---
+### ✨ Features at a Glance
+- Natural-language task creation & updates
+- Persistent long-term memory for user profiles, tasks, reasoning, and search history
+- Real-time web search powered by Tavily
+- Transparent AI reasoning viewer for full observability
+- Interactive HTML task dashboard with status, priority, and organization
+- Search history with timestamps, summaries, and citations
+- Adaptive user learning (preferences, interests, goals)
+
+---
+#### Engineering Motivation: 
+Agentic AI is rapidly evolving, but most examples lack persistent memory, reasoning visibility, and real-world usability. This project demonstrates how to combine Gemini, LangGraph, Trustcall, and Tavily to build a practical, explainable, autonomous productivity agent.
+
+---
+## 🚀 Live Demo
+
+Experience the deployed application here:
+
+[**🌐 Streamlit Cloud**](https://your-streamlit-app.streamlit.app)  
+
+- No installation required.
+
+---
+# 🎬 Demo
+
+---
+# 🏗️ System Architecture
+<img src="Images/architecture.png" width="600" height="400">
+
+---
+# 🧠 Memory Architecture
+<img src="Images/memory_archi.png" width="600" height="400">
+
+---
+# ⭐ Key Capabilities
+
+## 🤖 Autonomous Task Management
+- Create tasks using natural language
 - Update existing tasks
-- Mark tasks as completed
-- Understand natural language like: “Remind me to buy milk tomorrow morning.”
-- Moniter date and time
-- provide solution to complete the task
-- capable of classifying `semantic memory` {profile,collections} and procedural memory.
-- Store each task as its own Long term memory document
+- Track progress
+- Archive completed work
+- Manage deadlines
+- Suggest solutions
+- Organize projects
 
+---
 
-### 🧠 2. Maintain a User Profile
-**Automatically learns and updates:**
-- Name
-- age
-- Location
-- Job
-- relations
-- Preferences & interests
+## 🧠 Persistent Long-Term Memory
+The agent continuously learns and maintains structured memory.
+
+### 👤 User Profile
+Learns  
+- Preferences
+- Interests
+- Relationships
+- Goals
 - Habits
-- Routines
+- Work style
 
-Example:
-“I prefer almond milk.” → stored instantly.
+---
 
-### 📘 3. Learn and Improve Its Own Behavior
-**The agent maintains an Instruction Memory, allowing it to:**
-- Learn new rules
-- Adjust its behavior
-- Improve task‑handling logic
-Example:
-“Always ask for a due date when I add tasks.”
+### 📋 Task Memory
+Stores  
+- Tasks
+- Deadlines
+- Instructions
+- Status
+- Suggested solutions
 
-### 🔧 4. Structured Memory Updates with TrustCall
-**TrustCall enables:**
-- Schema‑validated extraction
-- SON Patch updates
-- Insert + update logic
-- Automatic self‑correction
-- Three schemas power the system:
-    - UserProfile
-    - ToDoItem
-    - InstructionMemory
+---
+### 🧠 Agent Learning & Reasoning
+Every interaction produces an explainable reasoning summary including  
+- Input Analysis
+- Context Understanding
+- Learning
+- Decision Process
+- Memory Updates
+- Risk Assessment
+- Confidence
 
-### 🕵️‍♂️ 5. Full Transparency with SPY Listener
-**The custom SPY tool logs:**
-- Tool calls
-- PatchDoc updates
-- Validation corrections
-- New memory creation
-- Plus a beautiful HTML Patch Viewer to inspect changes visually.
+---
 
-## 🛠️ How It’s Built
+### 🌐 Search History
+Stores the latest web searches including  
+- Search query
+- Timestamp
+- AI-generated summary
+- Source citation
 
-###🔹 Gemini LLM
-Handles reasoning, tool calling, and final answers.
+---
 
-### 🔹 LangGraph
-**Builds the ReAct agent workflow:**
-- LLM node
-- Tool router
-- Memory writer
-- Final answer node
+## 🌐 Real-Time Web Search
+Current information is automatically retrieved using **Tavily Search** whenever required.
 
-###🔹 TrustCall API
-**Provides:**
-- Structured extraction
-- JSON Patch updates
-- Insert + update logic
-- Validation and self‑correction
+Examples include  
+- Weather
+- Sports
+- Restaurants
+- Breaking News
+- Travel
+- Technology
+- Research
+Searches are automatically summarized and stored in long-term memory.
 
-###🔹 SPY Listener
-**Captures:**
-- Tool calls
-- PatchDoc updates
- -Validation errors
-- New memory creation
+## 🔍 Explainable AI - LLM Observability
 
-### 🔹 HTML Patch Viewer
-**Visualizes:**
-- Planned edits
-- Actual updates
-- Document IDs
-- Before/after states with color
+Every response includes an internal reasoning workflow.
 
-Image
+Example sections include
 
-## 📌 Future Enhancements
-- Task prioritization
-- Deadlines and reminders
-- Calendar integration
-- Natural‑language search
-- Task categories
-- Voice interface
-- Deployment to cloud
+- 📥 Input Analysis
+- 🧠 Context Understanding
+- 📚 Learning
+- 💡 Decision Process
+- 💾 Memory Impact
+- 🚀 Recommended Next Actions
+- ⚠️ Risk Assessment
+- 🎯 Confidence
 
-### Citation: 
-This project is an enhancement of the LangGraph project from LangChain Academy, extending it with Gemini‑powered reasoning, HTML card todo list.
+This makes the agent transparent, auditable, and easier to trust.
+
+---
+## ScreenShots
+
+| Login | Chat |
+|-------|------|
+| ![](images/login.png) | ![](images/chat.png) |
+
+| Dashboard | Agent Reasoning |
+|------------|----------------|
+| ![](images/dashboard.png) | ![](images/reasoning.png) |
+
+| Memory Store | Search History |
+|--------------|----------------|
+| ![](images/memory.png) | ![](images/search.png) |
+
+## ⚙️ Technology Stack
+
+| Layer | Technology |
+|--------|------------|
+| LLM | Gemini 3.1 Flash Lite |
+| Agent Framework | LangGraph |
+| Web Framework | Streamlit |
+| Memory Extraction | Trustcall |
+| Web Search | Tavily |
+| Validation | Pydantic |
+| Memory Store | LangGraph Store |
+| Language | Python |
+
+---
+
+# 📁 Project Structure
+
+```
+📦 AI-Task-Manager-Agent
+
+│
+├── app.py
+│
+├── agent/
+│   ├── graph.py
+│   ├── nodes.py
+│   ├── router.py
+│   ├── memory_store.py
+│   ├── trustcall.py
+│   ├── schema.py
+│   ├── llm.py
+│   ├── HTML_todo_dashboard.py
+│   └── HTML_patch_viewer.py
+│
+├── requirements.txt
+│
+├── .env.example
+│
+└── README.md
+```
+
+---
+
+# 🚀 Getting Started
+
+Clone the repository
+
+```bash
+git clone https://github.com/yourusername/AI-Task-Manager-Agent.git
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Create a `.env` file
+
+```text
+GOOGLE_API_KEY=YOUR_KEY
+
+TAVILY_API_KEY=YOUR_KEY
+```
+
+Run the application
+
+```bash
+streamlit run app.py
+```
+
+---
+
+# 💡 Example Conversation
+
+**User**
+
+> Remind me to call the dance school on Saturday.
+
+↓
+
+Agent
+
+✅ Creates a task
+
+↓
+
+Stores it in long-term memory
+
+↓
+
+Suggests a reminder
+
+↓
+
+Explains why it created the task
+
+---
+
+**User**
+
+> What's the best Indian restaurant near Irving, TX?
+
+↓
+
+Agent
+
+Uses Tavily Search
+
+↓
+
+Finds current recommendations
+
+↓
+
+Stores search history
+
+↓
+
+Updates lunch task
+
+↓
+
+Explains reasoning
+
+↓
+
+Returns answer
+
+---
+
+# 🎯 Engineering Highlights : Enterprise AI Agent
+- Gemini ReAct Agent Architecture
+- Persistent Long-Term Memory
+- Explainable AI
+- Tool Calling
+- Structured Memory Extraction
+- Persistent User Personalization
+- Tavily Search Integration
+- Trustcall Schema Validation/Memory Updates
+- Transparent Agent Reasoning
+- LangGraph State Machine
+- Human-in-the-Loop Design
+- Modular Node Architecture
+- Search History
+- Streamlit UI
+
+---
+
+# 🛣️ Future Roadmap
+
+- Google Calendar Integration
+- Gmail Integration
+- MCP Server Support
+- Google ADK Migration
+- Vertex AI Deployment
+- Docker Support
+- Cloud Run Deployment
+- Voice Assistant
+- Multi-Agent Collaboration
+- Mobile Interface
+
+---
+
+# 🙏 Acknowledgements
+
+Built using
+
+- Google Gemini
+- LangGraph
+- Streamlit
+- Trustcall
+- Tavily Search
+- Streamlit
+- Pydantic
+- python
+
+---
+🔐 Security & Privacy Notes
+- User data is stored locally in the LangGraph memory store.
+- No data is sent to third-party services except Gemini and Tavily.
+- API keys must be stored in .env and never committed.
+This project is for educational purposes and not intended for production security. Any PII data usage should be avoided.
+
+## ⭐ If you found this project interesting, consider giving it a star!
+
+### 👩‍💻 Author: Divya Shetty
+#### Licence : MIT
+#### Citation: 
+This project is an enhancement of the LangGraph project from LangChain Academy, extending it with Gemini‑powered reasoning, HTML card todo list,tavily search API, trustcall persistance and AI observability.
