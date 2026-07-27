@@ -242,6 +242,7 @@ if page == "💬 Chat":
 
                         .hero-title {
                             font-size: 33px;
+                            font:Roboto,Inter;
                             font-weight: 700;
                             color: #80ced6;
                             margin-bottom: 8px;
