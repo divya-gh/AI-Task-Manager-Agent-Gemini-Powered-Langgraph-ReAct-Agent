@@ -1,12 +1,8 @@
 # 🧠 AI Task Manager Agent
-**Autonomous Personal Productivity Agent with Long-Term Memory, Web Search & Transparent Reasoning**
-
-A production-inspired AI agent that combines Gemini, LangGraph, Trustcall, Tavily Search, and persistent memory to autonomously manage tasks, reason through decisions, retrieve current information, and continuously personalize itself.
+**Autonomous Personal Productivity Agent with Long-Term Memory, Web Search & Transparent Reasoning to autonomously manage tasks, reason through decisions, retrieve current information, and continuously personalize itself.**
 
 `Agent is built using Gemini, LangGraph, TrustCall, and a custom SPY listener for full visibility into tool calls and JSON Patch updates.`
 
-
-### Autonomous AI Productivity Agent with Long-Term Memory, Real-Time Search, and Transparent Reasoning
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4)
