@@ -647,6 +647,8 @@ elif page == "🔍 Agent Learning & Reasoning":
         latest_memory = memory_items[-1]
         reasoning = latest_memory.value["reasoning_summary"]
         reasoning = reasoning.replace("####", "\n\n####")
+        reasoning = reasoning.replace("•", "\n•")
+
         
         with st.expander("🧠 Agent Reasoning", expanded=True):
             st.markdown(reasoning)
