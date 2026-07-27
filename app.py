@@ -316,7 +316,7 @@ if page == "💬 Chat":
                             padding:10px 20px;
                             border-radius:10px;
                             margin-top:20px;
-                            margin-bottom:-15px;
+                            margin-bottom:-10px;
                             color:#ADD8E6;
                             text-align:center;
                             font-size:17px;
