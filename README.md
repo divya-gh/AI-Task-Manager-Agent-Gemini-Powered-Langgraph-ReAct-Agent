@@ -89,9 +89,9 @@ Every agent response includes a transparent internal reasoning workflow so you c
 * 📥 **Input Analysis** & 🧠 **Context Understanding**
 * 📚 **Learning** &       💡 **Decision Process**
 * 💾 **Memory Impact** &  🚀 **Recommended Next Actions**
-* ⚠️ **Risk Assessment**& 🎯 **Confidence Score**
+* ⚠️ **Risk Assessment** & 🎯 **Confidence Score**
 
-*This full transparency makes the agent auditable, predictable, and easier to trust.*
+`This full transparency makes the agent auditable, predictable, and easier to trust.`
 
   </td>
   </tr>
