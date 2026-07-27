@@ -48,7 +48,8 @@ if st.session_state.user_id == "":
     /* Title */
 
     h1{
-        color:white !important;
+        
+        color:#80ced6 !important;
         text-align:center;
         font-size:54px !important;
         margin-bottom:10px;
@@ -58,7 +59,7 @@ if st.session_state.user_id == "":
 
     .subtitle{
         text-align:center;
-        color:#cbd5e1;
+        color:#d5f4e6;
         font-size:20px;
         margin-bottom:30px;
     }
@@ -85,7 +86,7 @@ if st.session_state.user_id == "":
         height:56px;
         border-radius:14px;
         background:linear-gradient(90deg,#22c55e,#16a34a);
-        color:white;
+        color:d5f4e6 !important;
         border:none;
         font-size:18px;
         font-weight:700;
@@ -242,7 +243,7 @@ if page == "💬 Chat":
                         .hero-title {
                             font-size: 33px;
                             font-weight: 700;
-                            color: #EAEAEA;
+                            color: #80ced6;
                             margin-bottom: 8px;
                         }
 
@@ -256,7 +257,7 @@ if page == "💬 Chat":
                         .section-header {
                             font-size: 21px;
                             font-weight: 800;
-                            color: #D6D6D6;
+                            color: #f4e1d2;
                             margin-top: 20px;
                             margin-bottom: 12px;
                         }
@@ -281,7 +282,7 @@ if page == "💬 Chat":
 
                             font-size:18px;
                             font-weight:600;
-                            color:#F0F0F0;
+                            color:#d5f4e6;
 
                         }
 
@@ -436,14 +437,15 @@ if page == "💬 Chat":
     # -------------------------
 
     examples = [
-        "EX: I'm planning a trip to London this Saturday, I love coffee. Suggest places to visit.",
-        "I need to renew my passport before July 31st.",
-        "My next meeting with the team is on Friday at 3 PM. Can you remind me?",
-        "What's in my agenda for today?",
-        "Inform team about the delivery meeting this evening at 4.30PM or When is my next meeting with the team?",
-        "Organize my tasks by priority and deadline.",
-        "My niece is coming to visit this Friday. Can you suggest some fun activities for us to do together?",
-    ]
+            "I'm planning a trip to London this Saturday. I love coffee—can you suggest some top-rated specialty coffee spots to visit?",
+            "I need to renew my passport before July 31st. What steps do I need to take?",
+            "Can you set a reminder for my next team meeting on Friday at 3:00 PM?",
+            "What is on my agenda for today?",
+            "Inform the team about the delivery meeting this evening at 4:30 PM, or let me know when my next meeting with the team is.",
+            "Please organize all my active tasks by priority and upcoming deadlines.",
+            "My niece is visiting this Friday—what are some fun, memorable activities we can do together?",
+            "Create a project plan for launching a new website, break it into 4 sub-tasks with deadlines, and update my task dashboard."
+            ]
 
     st.caption(
     "💡 Try asking: " + random.choice(examples)
