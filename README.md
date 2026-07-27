@@ -87,9 +87,9 @@ Current real-world information is automatically retrieved via **Tavily Search** 
 ### 🔍 Explainable AI & LLM Observability
 Every agent response includes a transparent internal reasoning workflow so you can audit the decision process:
 * 📥 **Input Analysis** & 🧠 **Context Understanding**
-* 📚 **Learning** & 💡 **Decision Process**
-* 💾 **Memory Impact** & 🚀 **Recommended Next Actions**
-* ⚠️ **Risk Assessment** & 🎯 **Confidence Score**
+* 📚 **Learning** &       💡 **Decision Process**
+* 💾 **Memory Impact** &  🚀 **Recommended Next Actions**
+* ⚠️ **Risk Assessment**& 🎯 **Confidence Score**
 
 *This full transparency makes the agent auditable, predictable, and easier to trust.*
 
