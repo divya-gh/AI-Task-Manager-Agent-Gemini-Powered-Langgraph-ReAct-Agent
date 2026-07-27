@@ -62,6 +62,7 @@ Experience the deployed application here: [**🌐 Streamlit Cloud**](https://you
     <td width="50%" valign="top">
 
 ### 🤖 Autonomous Task Management
+Automatically classifies tasks and maintains a dynamic HTML task dashboard
 * **Natural Language Task Creation:** Create tasks effortlessly using plain English
 * **Task Updates & Progress:** Modify tasks, track ongoing status, and archive completed work
 * **Smart Deadlines & Solutions:** Automatically manage deadlines and receive AI-suggested solutions
