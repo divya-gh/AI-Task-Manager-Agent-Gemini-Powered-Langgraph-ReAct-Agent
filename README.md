@@ -48,11 +48,11 @@ Experience the deployed application here: [**🌐 Streamlit Cloud**](https://you
 
 ---
 # 🏗️ System Architecture
-<img src="Images/architecture.png" width="700" height="600">
+<img src="Images/architecture.png" width="800" height="900">
 
 ---
 # 🧠 Memory Architecture
-<img src="Images/memory_archi.png" width="800" height="600">
+<img src="Images/memory_archi.png" width="800" height="700">
 
 ---
 # ⭐ Key Capabilities
