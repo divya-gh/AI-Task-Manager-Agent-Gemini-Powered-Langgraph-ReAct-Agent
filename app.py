@@ -561,7 +561,7 @@ elif page == "📋 Task Dashboard":
 
     st.components.v1.html(
         html,
-        height=1200,
+        height=900,
         scrolling=scrolling
     )
 

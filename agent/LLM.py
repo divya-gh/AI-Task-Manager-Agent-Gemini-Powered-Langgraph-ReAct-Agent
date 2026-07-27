@@ -4,14 +4,20 @@ from google import genai
 from langchain_google_genai import ChatGoogleGenerativeAI
 from typing import TypedDict , Literal , Optional
 from pydantic import BaseModel, Field
+import streamlit as st
 
 
 load_dotenv()
-os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+# os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
+
+
+GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY", os.getenv("GOOGLE_API_KEY"))
+TAVILY_API_KEY = st.secrets.get("TAVILY_API_KEY", os.getenv("TAVILY_API_KEY"))
+
 os.environ["GOOGLE_API_USE_V1"] = "true"
 
 # create genai client and llm
-client = genai.Client(api_key = os.environ["GOOGLE_API_KEY"])
+client = genai.Client(api_key = GOOGLE_API_KEY)
 
 # create a llm using any of the above models
 llm = ChatGoogleGenerativeAI( model= "gemini-3.1-flash-lite-preview" , 
