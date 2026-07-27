@@ -1,9 +1,6 @@
 # 🧠 AI Task Manager Agent
 **Autonomous Personal Productivity Agent with Long-Term Memory, Web Search & Transparent Reasoning to autonomously manage tasks, reason through decisions, retrieve current information, and continuously personalize itself.**
 
-`Agent is built using Gemini, LangGraph, TrustCall, and a custom SPY listener for full visibility into tool calls and JSON Patch updates.`
-
-
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Gemini](https://img.shields.io/badge/Google-Gemini-4285F4)
 ![LangGraph](https://img.shields.io/badge/LangGraph-Agent-green)
@@ -27,7 +24,6 @@ AI Task Manager Agent is an **enterprise-inspired Agentic AI system** that combi
 
 The project demonstrates modern **Agent Engineering** principles including **ReAct reasoning**, **tool orchestration**, **persistent memory**, **schema-driven extraction**, and **explainable AI**.
 
----
 ### ✨ Features at a Glance
 - Natural-language task creation & updates
 - Persistent long-term memory for user profiles, tasks, reasoning, and search history
