@@ -68,6 +68,7 @@ Automatically classifies tasks and maintains a dynamic HTML task dashboard
 * **Smart Deadlines & Solutions:** Automatically manage deadlines and receive AI-suggested solutions
 * **Project Organization:** Structure and organize complex projects intelligently
 
+---
 ### 🧠 Persistent Long-Term Memory
 The agent continuously learns and maintains structured long-term memory across sessions:
 * **👤 User Profile:** Learns personal preferences, interests, relationships, goals, habits, and work styles
@@ -84,6 +85,7 @@ Current real-world information is automatically retrieved via **Tavily Search** 
 * **Automatic Memory Integration:** All web search findings are summarized and stored in long-term memory for future reference
 * **Task Integration:** Search results are integrated as projected solutions or user solutions while keeping a **Human-in-the-Loop** for approval and verification 
 
+---
 ### 🔍 Explainable AI & LLM Observability
 Every agent response includes a transparent internal reasoning workflow so you can audit the decision process:
 * 📥 **Input Analysis** & 🧠 **Context Understanding**
