@@ -40,10 +40,7 @@ Agentic AI is rapidly evolving, but most examples lack persistent memory, reason
 ---
 ## 🚀 Live Demo
 
-Experience the deployed application here:
-
-[**🌐 Streamlit Cloud**](https://your-streamlit-app.streamlit.app)  
-
+Experience the deployed application here: [**🌐 Streamlit Cloud**](https://your-streamlit-app.streamlit.app)  
 - No installation required.
 
 ---
@@ -51,11 +48,11 @@ Experience the deployed application here:
 
 ---
 # 🏗️ System Architecture
-<img src="Images/architecture.png" width="600" height="400">
+<img src="Images/architecture.png" width="700" height="600">
 
 ---
 # 🧠 Memory Architecture
-<img src="Images/memory_archi.png" width="600" height="400">
+<img src="Images/memory_archi.png" width="800" height="600">
 
 ---
 # ⭐ Key Capabilities
