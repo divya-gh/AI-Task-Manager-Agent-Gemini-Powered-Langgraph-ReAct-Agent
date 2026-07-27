@@ -55,92 +55,45 @@ Experience the deployed application here: [**🌐 Streamlit Cloud**](https://you
 <img src="Images/memory_archi.png" width="800" height="700">
 
 ---
-# ⭐ Key Capabilities
+## ⭐ Key Capabilities
 
-## 🤖 Autonomous Task Management
-- Create tasks using natural language
-- Update existing tasks
-- Track progress
-- Archive completed work
-- Manage deadlines
-- Suggest solutions
-- Organize projects
+<table>
+  <tr>
+    <td width="50%" valign="top">
 
----
+### 🤖 Autonomous Task Management
+* **Natural Language Task Creation:** Create tasks effortlessly using plain English
+* **Task Updates & Progress:** Modify tasks, track ongoing status, and archive completed work
+* **Smart Deadlines & Solutions:** Automatically manage deadlines and receive AI-suggested solutions
+* **Project Organization:** Structure and organize complex projects intelligently
 
-## 🧠 Persistent Long-Term Memory
-The agent continuously learns and maintains structured memory.
+### 🧠 Persistent Long-Term Memory
+The agent continuously learns and maintains structured long-term memory across sessions:
+* **👤 User Profile:** Learns personal preferences, interests, relationships, goals, habits, and work styles
+* **📋 Task Memory:** Stores detailed tasks, deadlines, execution instructions, status, and solutions
+* **🧠 Agent Learning & Reasoning:** Logs explainable summaries (Input Analysis, Context Understanding, Risk Assessment, Confidence, etc.)
+* **🌐 Search History:** Retains queries, timestamps, AI summaries, and direct source citations
 
-### 👤 User Profile
-Learns  
-- Preferences
-- Interests
-- Relationships
-- Goals
-- Habits
-- Work style
+    </td>
+    <td width="50%" valign="top">
 
----
+### 🌐 Real-Time Web Search
+Current real-world information is automatically retrieved via **Tavily Search** whenever required:
+* **Live Topics:** Weather, sports, local restaurants, breaking news, travel, tech updates, and deep research
+* **Automatic Memory Integration:** All web search findings are summarized and stored in long-term memory for future reference
 
-### 📋 Task Memory
-Stores  
-- Tasks
-- Deadlines
-- Instructions
-- Status
-- Suggested solutions
+### 🔍 Explainable AI & LLM Observability
+Every agent response includes a transparent internal reasoning workflow so you can audit the decision process:
+* 📥 **Input Analysis** & 🧠 **Context Understanding**
+* 📚 **Learning** & 💡 **Decision Process**
+* 💾 **Memory Impact** & 🚀 **Recommended Next Actions**
+* ⚠️ **Risk Assessment** & 🎯 **Confidence Score**
 
----
-### 🧠 Agent Learning & Reasoning
-Every interaction produces an explainable reasoning summary including  
-- Input Analysis
-- Context Understanding
-- Learning
-- Decision Process
-- Memory Updates
-- Risk Assessment
-- Confidence
+*This full transparency makes the agent auditable, predictable, and easier to trust.*
 
----
-
-### 🌐 Search History
-Stores the latest web searches including  
-- Search query
-- Timestamp
-- AI-generated summary
-- Source citation
-
----
-
-## 🌐 Real-Time Web Search
-Current information is automatically retrieved using **Tavily Search** whenever required.
-
-Examples include  
-- Weather
-- Sports
-- Restaurants
-- Breaking News
-- Travel
-- Technology
-- Research
-Searches are automatically summarized and stored in long-term memory.
-
-## 🔍 Explainable AI - LLM Observability
-
-Every response includes an internal reasoning workflow.
-
-Example sections include
-
-- 📥 Input Analysis
-- 🧠 Context Understanding
-- 📚 Learning
-- 💡 Decision Process
-- 💾 Memory Impact
-- 🚀 Recommended Next Actions
-- ⚠️ Risk Assessment
-- 🎯 Confidence
-
-This makes the agent transparent, auditable, and easier to trust.
+    </td>
+  </tr>
+</table>
 
 ---
 ## ScreenShots
