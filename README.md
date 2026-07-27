@@ -71,7 +71,7 @@ Experience the deployed application here: [**🌐 Streamlit Cloud**](https://you
 The agent continuously learns and maintains structured long-term memory across sessions:
 * **👤 User Profile:** Learns personal preferences, interests, relationships, goals, habits, and work styles
 * **📋 Task Memory:** Stores detailed tasks, deadlines, execution instructions, status, and solutions
-* **🧠 Agent Learning & Reasoning:** Logs explainable summaries (Input Analysis, Context Understanding, Risk Assessment, Confidence, etc.)
+* **🧠 Agent Learning & Reasoning:** Logs explainable summaries (Input Analysis, Context Understanding, Risk Assessment, Confidence, memory updates etc.)
 * **🌐 Search History:** Retains queries, timestamps, AI summaries, and direct source citations
 
     </td>
@@ -81,6 +81,7 @@ The agent continuously learns and maintains structured long-term memory across s
 Current real-world information is automatically retrieved via **Tavily Search** whenever required:
 * **Live Topics:** Weather, sports, local restaurants, breaking news, travel, tech updates, and deep research
 * **Automatic Memory Integration:** All web search findings are summarized and stored in long-term memory for future reference
+* **Task Integration:** Search results are integrated as projected solutions or user solutions while keeping a **Human-in-the-Loop** for approval and verification 
 
 ### 🔍 Explainable AI & LLM Observability
 Every agent response includes a transparent internal reasoning workflow so you can audit the decision process:
@@ -91,7 +92,7 @@ Every agent response includes a transparent internal reasoning workflow so you c
 
 *This full transparency makes the agent auditable, predictable, and easier to trust.*
 
-    </td>
+  </td>
   </tr>
 </table>
 
