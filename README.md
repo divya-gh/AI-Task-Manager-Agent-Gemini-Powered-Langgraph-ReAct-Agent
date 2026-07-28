@@ -252,7 +252,7 @@ streamlit run app.py
 
 ## ⭐ If you found this project interesting, consider giving it a star!
 ## ⭐ Want to work on the enhancement? just reach me @divyashettyk@gmail.com to work with me.
-## ⭐ Like my work or have a suggestion? Just drop a comment on [linked], [YouTube] or [X]
+## ⭐ Like my work or have a suggestion? Just drop a comment on [linked], [YouTube] or [X] 
 
 ### 👩‍💻 Author: Divya Shetty K
 #### Licence : MIT  
