@@ -108,7 +108,7 @@ Every agent response includes a transparent internal reasoning workflow so you c
 |-------|------|
 | ![](Images/welcome_page.png) | ![](Images/landing_page.png) |
 
-| Conversation | Dashboard |
+| Conversation | Task Dashboard |
 |------------|----------------|
 | ![](Images/conversation.png) | ![](Images/task_dashboard.png) |
 
@@ -116,7 +116,7 @@ Every agent response includes a transparent internal reasoning workflow so you c
 |------------|----------------|
 | ![](Images/store_memory.png) | ![](Images/aiLearning_resoning.png) |
 
-| Search History | Retrival |
+| Search History | Retrieval |
 |--------------|----------------|
 | ![](Images/store_memory.png) | ![](Images/conversation2.png) |
 
