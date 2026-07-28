@@ -6,7 +6,7 @@ from datetime import datetime
 from agent.graph import graph
 from agent.memory_store import store_memory
 from agent.HTML_todo_dashboard import render_html_dashboard
-from agent.HTML_patch_viewer import render_patch_html
+#from agent.HTML_patch_viewer import render_patch_html
 from langchain_core.messages import HumanMessage, AIMessage
 import random
 
@@ -440,7 +440,7 @@ if page == "💬 Chat":
     examples = [
             "I'm planning a trip to London this Saturday. I love coffee—can you suggest some top-rated specialty coffee spots to visit?",
             "I need to renew my passport before July 31st. What steps do I need to take?",
-            "Can you set a reminder for my next team meeting on Friday at 3:00 PM?",
+            "Set a reminder for my next team meeting on Friday at 3:00 PM",
             "What is on my agenda for today?",
             "Inform the team about the delivery meeting this evening at 4:30 PM, or let me know when my next meeting with the team is.",
             "Please organize all my active tasks by priority and upcoming deadlines.",

@@ -38,15 +38,11 @@ The project demonstrates modern **Agent Engineering** principles including **ReA
 Agentic AI is rapidly evolving, but most examples lack persistent memory, reasoning visibility, and real-world usability. This project demonstrates how to combine Gemini, LangGraph, Trustcall, and Tavily to build a practical, explainable, autonomous productivity agent.
 
 ---
-## 🚀 Live Demo
+## 🚀 Live App
+https://github.com/divya-gh-attachments/Images/AI_Task_Manager.mp4
 
+## 🎬 Live Demo
 **Experience the deployed application here:** [![Open App](https://img.shields.io/badge/🌐_Open_Streamlit_App-blue?style=for-the-badge)](https://ai-task-manager-react-agent.streamlit.app/) 
-- No installation required.  
-- right click -> `open in a new tab`
-
-
----
-# 🎬 Demo
 
 ---
 # 🏗️ System Architecture
