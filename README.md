@@ -40,7 +40,13 @@ Agentic AI is rapidly evolving, but most examples lack persistent memory, reason
 ---
 ## 🚀 Live Demo
 
-Experience the deployed application here: [**🌐 Streamlit Cloud**](https://ai-task-manager-react-agent.streamlit.app/)  
+**Experience the deployed application here:** [ **🌐 Streamlit Cloud**](https://ai-task-manager-react-agent.streamlit.app/)  
+
+<strong>Experience the deployed application here:</strong>
+<a href="https://ai-task-manager-react-agent.streamlit.app/" target="_blank">
+    **🌐 Streamlit Cloud**
+</a>
+
 - No installation required.
 
 ---
