@@ -40,7 +40,7 @@ Agentic AI is rapidly evolving, but most examples lack persistent memory, reason
 ---
 ## 🚀 Live Demo
 
-Experience the deployed application here: [**🌐 Streamlit Cloud**](https://your-streamlit-app.streamlit.app)  
+Experience the deployed application here: [**🌐 Streamlit Cloud**](https://ai-task-manager-react-agent.streamlit.app/)  
 - No installation required.
 
 ---
@@ -104,21 +104,25 @@ Every agent response includes a transparent internal reasoning workflow so you c
 
 | Login | Chat |
 |-------|------|
-| ![](images/login.png) | ![](images/chat.png) |
+| ![](Images/welcome_page.png) | ![](Images/landing_page.png) |
 
-| Dashboard | Agent Reasoning |
+| Conversation | Dashboard |
 |------------|----------------|
-| ![](images/dashboard.png) | ![](images/reasoning.png) |
+| ![](Images/conversation.png) | ![](Images/task_dashboard.png) |
 
-| Memory Store | Search History |
+| Memory Store | Agent Reasoning |
+|------------|----------------|
+| ![](Images/store_memory.png) | ![](Images/aiLearning_resoning.png) |
+
+| Search History | Retrival |
 |--------------|----------------|
-| ![](images/memory.png) | ![](images/search.png) |
+| ![](Images/store_memory.png) | ![](Images/conversation2.png) |
 
 ## ⚙️ Technology Stack
 
 | Layer | Technology |
 |--------|------------|
-| LLM | Gemini 3.1 Flash Lite |
+| LLM | gemini-3.1-flash-lite-preview |
 | Agent Framework | LangGraph |
 | Web Framework | Streamlit |
 | Memory Extraction | Trustcall |
@@ -146,7 +150,8 @@ Every agent response includes a transparent internal reasoning workflow so you c
 │   ├── schema.py
 │   ├── llm.py
 │   ├── HTML_todo_dashboard.py
-│   └── HTML_patch_viewer.py
+    ├── spy_with_TrustCall.py    
+│   └── spy_toolcall_info.py
 │
 ├── requirements.txt
 │
@@ -186,65 +191,6 @@ streamlit run app.py
 ```
 
 ---
-
-# 💡 Example Conversation
-
-**User**
-
-> Remind me to call the dance school on Saturday.
-
-↓
-
-Agent
-
-✅ Creates a task
-
-↓
-
-Stores it in long-term memory
-
-↓
-
-Suggests a reminder
-
-↓
-
-Explains why it created the task
-
----
-
-**User**
-
-> What's the best Indian restaurant near Irving, TX?
-
-↓
-
-Agent
-
-Uses Tavily Search
-
-↓
-
-Finds current recommendations
-
-↓
-
-Stores search history
-
-↓
-
-Updates lunch task
-
-↓
-
-Explains reasoning
-
-↓
-
-Returns answer
-
----
-
 # 🎯 Engineering Highlights : Enterprise AI Agent
 - Gemini ReAct Agent Architecture
 - Persistent Long-Term Memory
@@ -264,7 +210,6 @@ Returns answer
 ---
 
 # 🛣️ Future Roadmap
-
 - Google Calendar Integration
 - Gmail Integration
 - MCP Server Support
@@ -280,8 +225,7 @@ Returns answer
 
 # 🙏 Acknowledgements
 
-Built using
-
+**Built using:**
 - Google Gemini
 - LangGraph
 - Streamlit
@@ -292,7 +236,7 @@ Built using
 - python
 
 ---
-🔐 Security & Privacy Notes
+# 🔐 Security & Privacy Notes
 - User data is stored locally in the LangGraph memory store.
 - No data is sent to third-party services except Gemini and Tavily.
 - API keys must be stored in .env and never committed.

@@ -640,7 +640,7 @@ def search_tavily(state:MessagesState , config:RunnableConfig , store:BaseStore)
 
     id = state['messages'][-1].tool_calls[0]['id']
 
-    print(f"Tavily Query: {query}")
+    #print(f"Tavily Query: {query}")
 
     '''response = tavily_client.search(
         query=query,
@@ -656,7 +656,7 @@ def search_tavily(state:MessagesState , config:RunnableConfig , store:BaseStore)
     answer = [[item['url'], item['content']] for item in response['results']]
 
     #print("-" * 40)
-    print("Answers: ", answer)
+    #print("Answers: ", answer)
 
 
     #------------------
@@ -675,7 +675,7 @@ def search_tavily(state:MessagesState , config:RunnableConfig , store:BaseStore)
     #print("Trust_call_instr.content: ", trustcall_sys_instr)
     human_msg = HumanMessage(content="Add to or update the Tavily search history.")
 
-    print("-" * 40)
+    #print("-" * 40)
     #print("\nExisting Memory: ", exiting_content)
  
 
@@ -699,7 +699,7 @@ def search_tavily(state:MessagesState , config:RunnableConfig , store:BaseStore)
     # Keep only the latest 10
     all_searches = sorted(store.search(namespace), key=lambda x: x.value["DateTime"], reverse=True,
                         )
-    print("Memory: ", all_searches)
+    #print("Memory: ", all_searches)
 
     for item in all_searches[10:]:# keep 1st 10 
         store.delete(namespace, item.key)
