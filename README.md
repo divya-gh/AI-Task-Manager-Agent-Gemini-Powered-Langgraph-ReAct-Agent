@@ -10,7 +10,7 @@
 ![License](https://img.shields.io/badge/License-MIT-success)
 
 ---
-## 🎬 Live Demo
+## 🎬 Live App
 **Experience the deployed application here:** [![Open App](https://img.shields.io/badge/🌐_Open_Streamlit_App-blue?style=for-the-badge)](https://ai-task-manager-react-agent.streamlit.app/) 
 
 ## 🚀 Overview
