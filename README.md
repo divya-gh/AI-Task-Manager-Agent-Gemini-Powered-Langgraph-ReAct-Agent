@@ -41,8 +41,8 @@ The project demonstrates modern **Agent Engineering** principles including **ReA
 Agentic AI is rapidly evolving, but most examples lack persistent memory, reasoning visibility, and real-world usability. This project demonstrates how to combine Gemini, LangGraph, Trustcall, and Tavily to build a practical, explainable, autonomous productivity agent.
 
 ---
-## 🚀 Live App
-<img src="Images/AI_task_manager.gif" width="800" height="900">
+## 🚀 Live Demo
+<img src="Images/AI_task_manager.gif" width="700" height="800">
 
 ---
 # 🏗️ System Architecture
