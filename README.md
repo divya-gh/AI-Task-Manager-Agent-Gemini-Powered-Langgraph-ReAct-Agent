@@ -222,11 +222,21 @@ streamlit run app.py
 - Voice Assistant
 - Multi-Agent Collaboration
 - Mobile Interface
+- Security Enhancements
+  - End‑to‑end encryption for sensitive workflows
+  - Secure API key vaulting & rotation
+  - Threat‑modeling for agent actions
+- PII Management
+  - Automatic redaction of personal identifiers
+  - Safe‑storage policies for user‑generated content
+  - PII‑aware reasoning nodes
+- AI Guardrails & Safety Layer
+  - Policy‑driven response filtering
+  - Hallucination detection & correction
+  - Ethical‑use constraints for autonomous actions
 
 ---
-
 # 🙏 Acknowledgements
-
 **Built using:**
 - Google Gemini
 - LangGraph
@@ -241,8 +251,8 @@ streamlit run app.py
 # 🔐 Security & Privacy Notes
 - User data is stored locally in the LangGraph memory store.
 - No data is sent to third-party services except Gemini and Tavily.
-- API keys must be stored in .env and never committed.
-This project is for educational purposes and not intended for production security. Any PII data usage should be avoided.
+- API keys must be stored in .env and never committed.  
+**Note:** This project is for educational purposes and not intended for production security. Any PII data usage should be avoided.
 
 ## ⭐ If you found this project interesting, consider giving it a star!
 
