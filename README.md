@@ -39,7 +39,7 @@ Agentic AI is rapidly evolving, but most examples lack persistent memory, reason
 
 ---
 ## 🚀 Live App
-https://github.com/divya-gh-attachments/Images/AI_Task_Manager.mp4
+<img src="Images/AI_task_manager.png" width="800" height="900">
 
 ## 🎬 Live Demo
 **Experience the deployed application here:** [![Open App](https://img.shields.io/badge/🌐_Open_Streamlit_App-blue?style=for-the-badge)](https://ai-task-manager-react-agent.streamlit.app/) 
