@@ -42,7 +42,7 @@ Agentic AI is rapidly evolving, but most examples lack persistent memory, reason
 
 ---
 ## 🚀 Live Demo
-<img src="Images/AI_task_manager.gif" width="700" height="800">
+<img src="Images/AI_task_manager.gif" width="800" height="1000">
 
 ---
 # 🏗️ System Architecture
