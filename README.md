@@ -256,7 +256,6 @@ streamlit run app.py
 
 ## ⭐ If you found this project interesting, consider giving it a star!
 
-### 👩‍💻 Author: Divya Shetty
-#### Licence : MIT
-#### Citation: 
-This project is an enhancement of the LangGraph project from LangChain Academy, extending it with Gemini‑powered reasoning, HTML card todo list,tavily search API, trustcall persistance and AI observability.
+### 👩‍💻 Author: Divya Shetty K
+**Licence :** MIT
+**Citation:** This project is an enhancement of the LangGraph project from LangChain Academy, extending it with Gemini‑powered reasoning, HTML card todo list,tavily search API, trustcall persistance and AI observability.
