@@ -106,9 +106,7 @@ Every agent response includes a transparent internal reasoning workflow so you c
 
 | Login | Chat |
 |-------|------|
-| <div style="background:#ffffff; padding:12px; border-radius:10px; display:inline-block;">
-  <img src="Images/welcome_page.png" width="600">
-</div>
+| <img src="Images/welcome_page.png" width="300" style="border:2px solid #eaeaea; border-radius:8px;">
  | ![](Images/landing_page.png) |
 
 | Conversation | Dashboard |
