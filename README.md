@@ -252,7 +252,7 @@ streamlit run app.py
 - User data is stored locally in the LangGraph memory store.
 - No data is sent to third-party services except Gemini and Tavily.
 - API keys must be stored in .env and never committed.  
-##### Note: This project is for educational purposes and not intended for production security. Any PII data usage should be avoided.
+#### Note: This project is for educational purposes and not intended for production security. Any PII data usage should be avoided.
 
 ## ⭐ If you found this project interesting, consider giving it a star!
 

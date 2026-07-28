@@ -445,7 +445,9 @@ if page == "💬 Chat":
             "Inform the team about the delivery meeting this evening at 4:30 PM, or let me know when my next meeting with the team is.",
             "Please organize all my active tasks by priority and upcoming deadlines.",
             "My niece is visiting this Friday—what are some fun, memorable activities we can do together?",
-            "Create a project plan for launching a new website, break it into 4 sub-tasks with deadlines, and update my task dashboard."
+            "Create a project plan for launching a new website, break it into 4 sub-tasks with deadlines, and update my task dashboard.",
+            "I'm preparing for my Google AI interview. I have three weeks. Break my preparation into daily tasks.",
+            "I'm planning a family trip to Japan this October. I love hiking, sushi, and photography, and my budget is $4,000. Create a travel checklist."
             ]
 
     st.caption(
