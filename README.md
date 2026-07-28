@@ -250,10 +250,12 @@ streamlit run app.py
 - API keys must be stored in .env and never committed.  
 #### Note: This project is for educational purposes and not intended for production security. Any PII data usage should be avoided.
 
-## ⭐ If you found this project interesting, consider giving it a star!
-## ⭐ Want to work on the enhancement? just reach me @divyashettyk@gmail.com to work with me.
-## ⭐ Like my work or have a suggestion? Just drop a comment on [linked], [YouTube] or [X] 
+---
+#### ⭐ If you found this project interesting, consider giving it a star!
+#### ⭐ Want to work on the enhancement? just reach me @divyashettyk@gmail.com to work with me.
+#### ⭐ Like my work or have a suggestion? Just drop a comment on [linked], [YouTube] or [X] 
 
+---
 ### 👩‍💻 Author: Divya Shetty K
 #### Licence : MIT  
 #### Citation: This project is an enhancement of the LangGraph project from LangChain Academy, extending it with Gemini‑powered reasoning, HTML card todo list,tavily search API, trustcall persistance and AI observability.
