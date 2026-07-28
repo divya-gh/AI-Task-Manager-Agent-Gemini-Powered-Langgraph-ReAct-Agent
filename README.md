@@ -10,6 +10,9 @@
 ![License](https://img.shields.io/badge/License-MIT-success)
 
 ---
+## 🎬 Live App
+**Experience the deployed application here:** [![Open App](https://img.shields.io/badge/🌐_Open_Streamlit_App-blue?style=for-the-badge)](https://ai-task-manager-react-agent.streamlit.app/) 
+
 ## 🚀 Overview
 
 AI Task Manager Agent is an **enterprise-inspired Agentic AI system** that combines **Gemini**, **LangGraph**, **Trustcall**, **Tavily Search**, and **persistent long-term memory** to help users manage tasks through natural conversations.
@@ -38,11 +41,8 @@ The project demonstrates modern **Agent Engineering** principles including **ReA
 Agentic AI is rapidly evolving, but most examples lack persistent memory, reasoning visibility, and real-world usability. This project demonstrates how to combine Gemini, LangGraph, Trustcall, and Tavily to build a practical, explainable, autonomous productivity agent.
 
 ---
-## 🚀 Live App
-<img src="Images/AI_task_manager.gif" width="800" height="900">
-
-## 🎬 Live Demo
-**Experience the deployed application here:** [![Open App](https://img.shields.io/badge/🌐_Open_Streamlit_App-blue?style=for-the-badge)](https://ai-task-manager-react-agent.streamlit.app/) 
+## 🚀 Live Demo
+<img src="Images/AI_task_manager.gif" width="700" height="800">
 
 ---
 # 🏗️ System Architecture
